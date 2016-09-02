@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>银行卡实名认证</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/money.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+
+    <style type="text/css">
+        p.aui-text-info:active{
+            color:#26c6e3!important;
+        }
+    </style>
+</head>
+<body>
+	<!-- 顶部导航栏 -->
+	<header class="defaultBar aui-bar aui-bar-nav aui-bar-danger">
+		<a class="aui-btn aui-btn-danger aui-pull-left" style="background-color:#282828!important">
+			<span class="aui-pull-left aui-iconfont aui-icon-left" ontouchend="closeWin()"></span>
+			<div class="aui-title">添加银行卡</div>
+            <span class="aui-pull-right" style="font-size:6px;color:#F1EEEE">商加安全支付</span>			
+		</a>
+	</header>
+	<div class="aui-content payZone">
+		<p>请输入您的个人信息及银行卡号</p>
+		<div class="aui-input-row inputZone">
+			<span class="aui-input-addon">真实姓名</span>
+			<input type="text" class="aui-input" placeholder="  输入姓名" id="name"/>
+		</div>
+		<div class="aui-input-row inputZone">
+			<span class="aui-input-addon">银行卡号</span>
+			<input type="number" class="aui-input" placeholder="  输入银行卡号" id="cardNum"/>
+		</div>
+
+        <div class="aui-input-row inputZone">
+            <span class="aui-input-addon">身份证号</span>
+            <input type="text" class="aui-input" placeholder="  输入身份证号码" id="idcar"/>
+        </div>
+		<div class="aui-btn-info aui-btn-block aui-btn" style="background-color:#26c6e3!important;color:#fff" onclick="next()">下一步</div>
+	</div>
+
+    <footer>
+        <p class="aui-text-info" ontouchend="openWin('bank-addali','addali.html')">点此绑定支付宝</p>
+    </footer>
+
+    <script type="text/javascript">
+        var userinfo = {};
+        apiready = function () {
+            load();
+        }
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: true
+            });
+            var id = api.pageParam.data;
+            //获取数据
+            post(dburl.account.bankuserinfo, {}, function (r) {
+                if (r) {
+                    userinfo = r.D;
+                    $("#name").val(r.D.name);
+                    $("#idcar").val(r.D.idcar);
+                }
+            })
+            api.hideProgress();
+        }
+
+        var next = function () {
+            var name = $('#name').val();
+            var cardNum = ''+$('#cardNum').val() ;
+            var idCard = ''+$('#idcar').val() ;
+
+            if (name == null || name == '' || cardNum == null || cardNum.length < 6 || idCard == null || idCard.length < 18) {
+                
+                api.toast({
+                    msg: '您输入的信息有误',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+            
+            openWin('cardmsg', 'cardmsg.html', {
+                user: { name: name, phone: userinfo.phone, idcar: idCard },
+                car: { carno: cardNum }
+            });
+        }
+
+    </script>
+</body>
+</html>

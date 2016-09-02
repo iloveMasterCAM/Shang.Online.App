@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>支付状态</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+
+        <a class="aui-pull-left" onclick="closeWin()">
+
+            <span class="aui-iconfont aui-icon-left"></span>
+
+        </a>
+
+        <div class="aui-title" id="title">订单支付结果</div>
+        <a class="aui-pull-right">
+
+            <span class="aui-iconfont aui-icon-home" onclick="gotoHome()"></span>
+
+        </a>
+    </header>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script>
+        apiready = function () {
+            var orderno = api.pageParam.data.orderno;
+
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '查询订单状态..',
+                text: '',
+                modal: true
+            });
+
+            post(dburl.pay.orderstate, { values: { orderno: orderno } }, function (r) {
+                if (!r.S) {
+                    alert(r.M);
+                    api.closeWin();
+                }
+                api.openFrame({
+                    name: 'pay-show_frm',
+                    url: 'show_frm.html', vScrollBarEnabled: false,
+                    pageParam: r.D,
+                    bounces: false,
+                    rect: {
+                        x: 0,
+                        y: header,
+                        w: 'auto',
+                        h: rect_h,
+                    }
+                });
+                if (r.D.state == "支付成功") {
+                    var event = "pay_" + r.D.type + "_success";
+                    api.sendEvent({ name: event });
+                }
+                api.hideProgress();
+            })
+        }
+        var gotoHome = function () {
+            api.closeToWin({name:"root"})
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>0元购</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body style="font-family:黑体">
+    <header class="aui-bar aui-bar-nav" style="background-color:#f44747;">
+        <a class="aui-pull-left  " ontouchend="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+
+
+        <div class="aui-title aui-pull-left">获奖记录</div>
+        <a class="aui-pull-right" style="font-size:10px;color:#808080">
+            
+        </a>
+    </header>
+    <script>
+        apiready = function () {
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+
+            api.openFrame({
+                name: 'trunlog_frm',
+                url: 'trunlog_frm.html', vScrollBarEnabled: false,
+                bounces: false,
+                rect: {
+                    x: 0,
+                    y: header,
+                    w: 'auto',
+                    h: rect_h,
+                }
+            })
+
+        }
+
+    </script>
+</body>
+</html>

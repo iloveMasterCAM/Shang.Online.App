@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>店铺主页</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/aui_iconfont.ttf">
+    <link rel="stylesheet" href="../../css/all.css">
+    <link rel="stylesheet" href="../../css/dainpu.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/dianpuxiugai.css">
+   <!-- <link rel="stylesheet" type="text/css" href="../../css/base.css">-->
+
+
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../script/artTemplate.js"></script>
+</head>
+<body>
+    <!--头部-->
+    <div class="topdiv" id="top">
+        <!--蒙版-->
+        <div class="mark" id="mark"></div>
+        <!--标题栏-->
+        <div class="top" id="header">
+            <header class="aui-bar aui-bar-nav" style="height: 48px;background-color: transparent">
+                <ul>
+                    <li class="aui-pull-left" ontouchend="closeWin()">
+                        <i class="aui-iconfont aui-icon-left"></i>
+                    </li>
+                    <li class="aui-pull-right">
+                        <i class="aui-iconfont aui-icon-search"></i>
+                    </li>
+                </ul>
+            </header>
+        </div>
+        <script type="text/html" id="org_tmp">
+            <!--店铺关注-->
+            <div class="dianp" id="dianp" style="position: absolute;top:48px;">
+                <ol>
+                    <li class="aui-col-xs-2">
+                        <div class="imgdiv"><img class="img" src="{{logo}}"/></div>
+                    </li>
+                    <li class="aui-col-xs-8">
+                        <div style="padding-left: 15px;">
+                            <div class="aui-col-xs-10">
+                                <p class="xtext" style="color: #fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{name}}</p><br/>
+                                <span class="mtext" style="color: #c0c0c0;position: relative;top: -20px;">{{num_collect}}人关注</span>
+                            </div>
+                            <i class="aui-iconfont aui-icon-right" style="color: #b0aeb7;position: relative;top: -2px;"></i>
+                        </div>
+                    </li>
+                    <!--6.17修改-->
+                    <li class="aui-col-xs-2">
+                        <div class="aui-btn btn" id="no" onclick="btn(this)">关注</div>
+                    </li>
+                </ol>
+            </div>
+        </script>
+    </div>
+    <!--导航-->
+    <div class="aui-bar aui-bar-nav" id="tabs">
+        <ul class="xtext titletext">
+            <li class="aui-col-xs-3"><span class="active" id="all">全部商品</span></li>
+            <li class="aui-col-xs-3"><span id="new">上新</span></li>
+            <li class="aui-col-xs-3"><span id="dynamic">店铺动态</span></li>
+            <li class="aui-col-xs-3"><span id="equity">分红权</span></li>
+        </ul>
+    </div>
+    <!--内容部分-->
+    <div class="aui-content" id="content" style="margin-top:0;width: 100%">
+        <ul class="shopList goodList clearfix" id="aui-waterfall"></ul>
+    </div>
+    <!--分红记录-->
+    <div id="shoped" style="width: 100%"></div>
+    <!--底部-->
+    <div class="aui-nav" id="footer">
+        <ul>
+            <li class="aui-col-xs-4 aui-pull-left" style="padding: 10px 0" onclick="toMap()">
+                <img style="width: 18px;height: 19px" src="../../image/store/daohang.png"/>
+                <span class="titletext mtext">导航</span>
+            </li>
+            <li class="aui-col-xs-4">
+                <img style="width: 68px;height: 52px;margin-top: -9px;" src="../../image/store/more.png"/>
+            </li>
+            <li class="aui-col-xs-4 aui-pull-right" style="padding: 10px 0" onclick="code()">
+                <img style="width: 18px;height: 18px;" src="../../image/store/fenxiangma.png"/>
+                <span class="titletext mtext">分享码</span>
+            </li>
+        </ul>
+    </div>
+    <!--商品绑定-->
+    <script  type="text/html" id="goods_tmp">
+        {{each D as m i}}
+            <li class="aui-col-xs-6" style="overflow:hidden;margin-bottom: 10px;">
+                <div class="aui-waterfall-header aui-text-left" onclick="openWin('store-goodsdetail','goodsdetail_bar.html',{id:'{{m.id}}'})" style="overflow:hidden;background-color: #fff;min-height:165px;max-height: 165px;width: 165px;margin: 0 auto" >
+                    <img style="min-height:165px;max-height: 165px;width: auto;margin-left:auto;margin-right:auto;" src="{{m.pic}}" />
+                    <p class="aui-ellipsis-2">{{m.name}}</p>
+                </div>
+                <div class="aui-waterfall-footer">
+                    <div class="clearfix">
+                        <div class="clearfix">
+                            <span class="aui-pull-left aui-text-danger" style="font-size: 15px">&yen;{{m.price}}</span>
+                            <span class="aui-pull-right navtext" style="font-size: 11px">
+                                已售<span class="aui-text-danger">{{m.share}}</span>件
+                            </span>
+                        </div>
+                        <div class="bottomInfo clearfix">
+                            <div class="aui-col-xs-9">
+                                <p>分红金:&yen;<span>{{m.inprice}}</span></p>
+                                <p>分佣金:&yen;<span>{{m.entity}}</span></p>
+                            </div>
+                            <!--6.18修改-->
+                            <div class="aui-col-xs-3">
+                                <div onclick="addCart(this,'{{m.id}}')"><img style="width: 30px" src="../../image/store/shopping-cat_visited.png" /></div>
+                                <div class="redcar" onclick="backPic(this,'{{m.id}}')"><img style="width: 30px;" src="../../image/store/shopping-cat_visite.png" /></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </script>
+    <!--分红-->
+    <script type="text/html" id="tmp_equity">
+        <p class="info">
+            <span class="aui-text-danger">*</span>本店按<span class="aui-text-success">{{cycle}}</span>分红，每周营业额<span class="aui-text-danger">{{ep}}%</span>将分给持有分红权的人
+        </p>
+        <div class="aui-content clearfix addPadding">
+            <div class="part">
+                <p>&yen;<span class="number">{{pool}}</span></p>
+                <p class="littleFont">分红池金额</p>
+            </div>
+            <div class="part">
+                <p><span class="number">{{selling}}</span>份</p>
+                <p class="littleFont">市场持有分红权</p>
+            </div>
+        </div>
+    </script>
+    <!--历史分红-->
+    <script type="text/html" id="tmp_dividends">
+        <div class="aui-content bottomMargin">
+            <ul class="aui-list-view profitList" id="list_dividends">
+                <li class="aui-list-view-cell title">
+                    历史分红<span class="aui-text-danger">{{cnt}}</span>次
+                </li>
+                {{each list as l i}}
+                <li class="aui-list-view-cell">
+                    <time class="aui-col-xs-4">{{l.time}}</time>
+                    <span class="aui-col-xs-4 everyProfit">分红金额</span>
+                    <span class="aui-col-xs-4 aui-text-danger">&yen;{{l.money}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
+    <!--分红金额-->
+    <script type="text/html" id="tmp_d">
+        {{each list as l i}}
+        <li class="aui-list-view-cell">
+            <time class="aui-col-xs-4">{{l.time}}</time>
+            <span class="aui-col-xs-4 everyProfit">分红金额</span>
+            <span class="aui-col-xs-4 aui-text-danger">&yen;{{l.money}}</span>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        /*关注按钮切换*/
+        var changed=false;
+        function btn(obj){
+            var btn=$("#no");
+            if(!changed)
+            {
+                btn.css("background-color","#ecf0f1");
+                btn.css("color","#f67f7f");
+                btn.html("已关注");
+                changed=!changed;
+            }
+            else{
+                btn.css("background-color","#f34b4b");
+                btn.css("color","#fff");
+                btn.html("关注");
+                changed=!changed;
+            }
+        }
+        /*购物车切换*/
+        function changePic(obj) {
+            var path=obj.src;
+            // var result=getPicFilename(path);//获取图片名
+            var showNote;
+            obj.style.display="none";
+            showNote=obj.nextSibling.nextSibling;
+            showNote.style.display ="inherit";
+        }
+        /*固定头部和导航栏*/
+        window.onscroll=function () {
+            var scrollTop=document.documentElement.scrollTop||document.body.scrollTop||window.pageYOffset;
+            var menu=document.getElementById("header");//获得头部
+            var dianp=document.getElementsByName("dianp").offsetHeight;
+            var mark=document.getElementById("mark").offsetHeight;
+            var tabs=document.getElementById("tabs");
+            var dian=document.getElementById("dianp");
+            if (scrollTop>0) {
+                menu.style.backgroundColor="#f05453";
+                dian.style.display="none";
+                if(scrollTop>=dianp || scrollTop>=mark){
+                    tabs.style.position="fixed";
+                    tabs.style.top="45px";
+                    menu.style.zIndex=11;
+                }
+            }
+            else {
+                dian.style.display="block";
+                menu.style.backgroundColor="transparent";
+                tabs.style.position="relative";
+                tabs.style.top="0";
+            }
+        };
+    </script>
+    <script type="text/javascript">
+
+        var orgId = "";
+        var pageIndex = 1;
+        var pageSize = 10;
+        var recent = 0;
+
+        apiready = function () {
+            orgId = api.pageParam.data;
+
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.store.detail_organizes, { values: { ID: orgId } }, function (d) {
+                var html = template('org_tmp', d.D);
+                $('body').append(html);
+                load();
+
+                //切换卡
+                $("#tabs").find("li span").each(function(){
+                    var $this=$(this);
+                    $this.click(function(){
+                        $("#tabs").find("li span").removeClass("active");
+                        $this.addClass("active");
+
+                        var contype = $(this).attr('id');
+                        if (contype == 'all') {
+                            $('#aui-waterfall').html('');
+                            $('#shoped').html('');
+                            recent = 0;
+                            pageIndex = 1;
+                            load();
+                        }
+                        else if (contype == 'new') {
+                            $('#aui-waterfall').html('');
+                            $('#shoped').html('');
+                            recent = 1;
+                            pageIndex = 1;
+                            load();
+                        }
+                        else if (contype == 'dynamic') {
+                            $('#aui-waterfall').html('');//暂无内容
+                            $('#shoped').html('');
+                        }
+                        else if (contype == 'equity') {
+                            //$('shopequity').appendTo($('body'));
+                            //$('#shopequity').css({ display: 'block' });
+                            $('#aui-waterfall').html('');
+                            $('#shoped').html('');
+                            pageIndex = 1;
+
+                            api.showProgress({
+                                style: 'default',
+                                animationType: 'fade',
+                                title: '加载...',
+                                text: '',
+                                modal: false
+                            });
+
+                            post(dburl.store.shopequity, { values: { id: orgId } }, function (d) {
+                                if (d.S) {
+                                    var html = template('tmp_equity', d.D);
+                                    $('#shoped').append(html);
+
+                                    post(dburl.store.shopdividends, { values: { id: orgId } }, function (r) {
+                                        if (r.S) {
+                                            var html_d = template('tmp_dividends', r.D);
+                                            $('#shoped').append(html_d);
+                                            pageIndex += 1;
+                                            api.hideProgress();
+                                        }
+                                    })
+                                }
+                                api.hideProgress();
+                            })
+                        }
+                    })
+                });
+
+                api.hideProgress();
+            });
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '加载...',
+                    text: '',
+                    modal: false
+                });
+                var type = $("#tabs").find('li').attr('id');
+                if (type == 'all' || type == 'new')
+                    load();
+                else if (type = 'equity')
+                    load_d();
+            });
+
+        };
+
+        //加载商品
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: true
+            });
+
+            post(dburl.store.list_shopshopstore, { values: { o: orgId, pageIndex: pageIndex,recent:recent } }, function (d) {
+                var html = template('goods_tmp', d);
+                $('#aui-waterfall').append(html);
+                $('#content').css({ "margin-bottom": $('#footer').outerHeight(), "position": "absolute" });
+                pageIndex += 1;
+                api.hideProgress();
+            })
+        };
+        //加载分红记录
+        var load_d = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: true
+            });
+
+            post(dburl.store.shopdividends, { values: { id: orgId, pageIndex: pageIndex } }, function (d) {
+                if (d.S) {
+                    var html = template('tmp_d', d.D);
+                    $('#list_dividends').append(html);
+                    pageIndex += 1;
+                    api.hideProgress();
+                }
+                api.hideProgress();
+            })
+        }
+
+        var code = function () {
+            //var FNScanner = api.require('FNScanner');
+            //FNScanner.encodeImg({
+            //    content: '店铺' + id,
+            //    saveToAlbum: true,
+            //    saveImg: {
+            //        path: 'fs://album.png',
+            //        w: 200,
+            //        h: 200
+            //    }
+            //}, function (ret, err) {
+            //    if (ret.status) {
+            //        //生成图片，打开在哪里
+            //        //   alert(JSON.stringify(ret));
+            //    } else {
+            //        //   alert(JSON.stringify(err));
+            //    }
+            //});
+            alert("稍后将推出分享店铺功能");
+        }
+
+        var toMap = function () {
+            post(dburl.store.orgtoshop, { values: { id: orgId } }, function (r) {
+                openWin('store-map', 'map.html', r.D);
+            })
+        }
+
+        var addCart = function (obj,id) {
+            
+            post(dburl.store.addtocart, { values: { id: id } }, function (r) {
+                if (r.S) {
+                    changePic(obj);
+                    api.toast({
+                        msg: '已加入购物车',
+                        duration: 2000,
+                        location: 'bottom'
+                    })
+                }
+                else {
+                    api.toast({
+                        msg: r.M,
+                        duration: 2000,
+                        location: 'bottom'
+                    })
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>

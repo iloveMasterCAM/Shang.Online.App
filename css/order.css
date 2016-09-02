@@ -1,0 +1,338 @@
+/*订单详情页*/
+.orderBox{
+	padding-right: 3%;
+	padding-left: 5%;
+	font-size: 12px;
+}
+.shopMsg{
+	
+	margin-top: 6.85%;
+}
+.shopMsg .imgBox{
+	margin-right: 2%;
+	width: 5%;
+}
+.shopMsg .imgBox .aui-text-danger{
+	color: #ff3405 !important;
+}
+.shopMsg .imgBox img{
+	display: block;
+}
+.goodMsg li{
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.goodMsg.aui-list-view:after,.deliverMsg .aui-list-view:after{
+	border-top: 0px;
+}
+.goodMsg .aui-list-view-cell:last-child:after,.deliverMsg .aui-list-view-cell:after{
+	border-bottom: 0px;
+}
+.goodMsg .aui-img-object.aui-pull-left{
+	max-width: 76px;
+	height: 76px;
+	margin-right: 10.7%;
+}
+.goodMsg .aui-img-body{
+	line-height: 28px;
+}
+.goodMsg .aui-img-body p{
+	font-size: 12px;
+}
+.goodMsg .aui-img-body .aui-text-danger{
+	color: #ff7053 !important;
+}
+.goodMsg .aui-img-body img{
+	width: 9%;
+}
+.goodMsg .aui-img-body .aui-pull-right{
+	text-align: right;
+}
+.logistics{
+	margin-top: 10.8%;
+}
+.logistics div{
+	margin-top: 7%;
+}
+.logistics p img,.deliverMsg img{
+	width: 3%;
+}
+.logistics .detail{
+	font-size: 12px;
+	text-indent: 18px;
+}
+.deliverMsg{
+	margin-top: 16.18%;
+	font-size: 14px;
+}
+.deliverMsg li{
+	padding: 4px 0;
+}
+.deliverMsg img{
+	width: 4%;
+	margin-right: 2%;
+}
+.btnGroup{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.btnGroup .aui-btn{
+	border-radius: 0;
+	padding: 13px 12px;
+}
+.btnGroup:before{
+	content: "";
+	display: block;
+	height: 70%;
+	width: 1px;
+	background-color: #FFF;
+	position: absolute;
+	left: 50%;
+	bottom: 15%;
+	z-index: 4;
+}
+/*我的订单页*/
+#orderList.orderBox{
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-top: 5px;
+}
+.aui-tab{
+	width: 80%;
+	margin: 0 auto;
+	border-bottom-right-radius: 39px;
+	border-bottom-left-radius: 39px;
+	background-color: #f44747;
+}
+.aui-tab-nav{
+	width: 90%;
+	background-color: transparent;
+	margin: 0 auto;
+	height: 38.5px;
+	
+}
+.aui-tab-nav li{
+	position: relative;
+	height: 38.5px;
+	line-height: 40px;
+	color: #fff;
+	background-color: transparent;
+}
+.aui-tab-nav li.active{
+	color: #fff;
+	border-bottom: 2px solid transparent;
+}
+.aui-tab-nav li.active:before{
+	content: "";
+	display: block;
+	width: 50%;
+	left: 25%;
+	height: 10px;
+	position: absolute;
+	bottom: 3px;
+	border-bottom: 1px solid #fff;
+}
+#orderList .aui-list-view{
+	background-color: transparent;
+}
+#orderList .aui-list-view-cell{
+	padding: 0 15px;
+	margin-top: 15px;
+	background-color: #fff;
+}
+#orderList .aui-list-view:after{
+	/*border-top: 0px solid;*/
+}
+#orderList  .goodMsg{
+	margin-bottom: 0px;
+}
+#orderList  .aui-list-view-cell:after{
+	border-bottom: 0px solid;
+}
+#orderList .shopMsg{
+	margin-top: 2.85%;
+}
+#orderList .aui-img{
+	padding: 0px;
+}
+/*确认收货*/
+.consigneeMsg{
+	position: relative;
+	padding-left: 0px;
+}
+.consigneeMsg:before{
+	content: "";
+	box-shadow: 0px 4px 11px #D8D8D8;
+	border-radius: 46%;
+	display: block;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	height: 20px;
+}
+.consigneeMsg img{
+	width: 4%;
+}
+.consigneeMsg .tel{
+	font-size: 15px;
+}
+.consigneeMsg .aui-list-view{
+	margin-bottom: 0;
+}
+.consigneeMsg .edit{
+	font-size: 12px;
+	color: #888;
+}
+.consigneeMsg .aui-list-view-cell:last-child:after,.consigneeMsg .aui-list-view-cell:after,.sureOrderBox .goodMsg .aui-list-view-cell:after{
+	border-bottom: 0px solid;
+}
+.sureOrderBox.aui-content-padded{
+	margin: 0 20px;
+	padding-right: 0px;
+}
+.sureOrderBox.orderBox{
+	padding-left: 0px;
+}
+.sureOrderBox .shopMsg{
+	margin-top: 0;
+	padding-top: 5%;
+	padding-left: 5%;
+}
+.sureOrderBox .shopMsg .imgBox{
+	width: 6%;
+}
+.sureOrderBox .goodMsg .aui-img-body p{
+	color: #575757;
+	line-height: 16px;
+}
+.sureOrderBox .goodMsg .aui-img-object.aui-pull-left{
+	margin-right: 3.7%;
+}
+.sureOrderBox .goodMsg .aui-badge{
+	border-radius: 0;
+	padding:3px;
+	margin-right: 3px;
+}
+.sureOrderBox .goodMsg{
+	position: relative;
+	padding-right: 3%;
+	margin-bottom: 0;
+	/*border-bottom: 4px solid;*/
+	/*-webkit-border-bottom-color: -webkit-gradient(linear, 0 0, 0 100%, from(red), to(blue));*/
+	padding-left: 5%;
+}
+.sureOrderBox .goodMsg .aui-counter-minus, .aui-counter-plus{
+	color: #f34b4b;
+}
+.sureOrderBox .goodMsg:after{
+	content: "";
+	width: 100%;
+	height: 4px;
+	position: absolute;
+	top: 97%;
+
+	background: -webkit-gradient(linear, 100% 0, 0 100%, from(#f6eab3), to(#d8f3f1));
+}
+
+.sureOrderBox .goodMsg .buyNumber{
+	font-size: 14px;
+	line-height: 30px;
+}
+.choiceList .aui-badge{
+	background-color: transparent;
+	font-size: 11px;
+	color: #b0b0b0;
+}
+.choiceList .aui-list-view-cell:after{
+	border-bottom: 1px solid #e0e0e0;
+}
+textarea.remark{
+	font-size: 12px;
+	color: #b0b0b0;
+	width: 89%;
+	margin-left: 20px;
+	margin-right: 20px;
+	border: 0px solid;
+	background-image: url("../image/order/edit.png");
+	background-repeat: no-repeat;
+	text-indent: 24px;
+	background-position: 5% 24%;
+	background-size: 4%;
+}
+.buy{
+	border-top: 1px solid #e0e0e0;
+}
+.buy .aui-btn{
+	text-align: right;
+	font-size: 12px;
+	background-color: #fff;
+}
+.buy .aui-btn-danger{
+	text-align: center;
+	background-color: #e74c3c;
+	font-size: 14px;
+}
+.buy .totalMoney{
+	color: #F44747;
+	font-size: 14px;
+}
+
+/*商品信息页*/
+.barFixed{
+	position: fixed;
+	background-color: rgba(0,0,0,.35);
+}
+.changeFont{
+	font-size: 14px;
+}
+.changeFont .aui-btn{
+	font-size: 18px;
+}
+.barFixed .aui-btn{
+	background-color: transparent;
+}
+#swiper1 .swiper-pagination-bullet{
+	background-color: #fff;
+	opacity: 1;
+}
+#swiper1 .swiper-pagination-bullet-active{
+	background-color: #f64f05;
+}
+.greyBg{
+	background-color: #f6f6f6;
+	padding:0 5%;
+	margin-bottom: 3%;
+}
+.shopName{
+	font-weight: bold;
+	padding: 5.5px 5%;
+}
+.shopName .imgBox{
+	line-height: 29px;
+}
+.shopName .imgBox img{
+	display: inline-block;
+}
+.blackColor{
+	color: #212020;
+}
+.greyBg .aui-list-view-cell:after{
+	border-bottom: 0px solid;
+}
+.goodDetail{
+	font-size: 12px;
+}
+.goodDetail{
+	padding: 2px 5%;
+}
+.goodDetail li{
+	padding: 2px 0;
+}
+.orderMsg{
+	font-size: 14px;
+}
+.orderMsg li{
+	padding: 6.2px 0;
+}

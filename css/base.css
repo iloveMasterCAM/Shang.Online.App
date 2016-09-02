@@ -1,0 +1,43 @@
+header.aui-bar-danger,header .aui-btn-danger{
+	background-color: #f44747;
+}
+body{
+	background: #F3F3F3;
+	font-family: 方正,兰亭,黑体;
+	color: #575757
+}
+p{
+	color: #888888;
+}
+img{
+	width: 100%;
+	height: auto;
+}
+.clearfix:after{
+	content: "";
+	clear: both;
+	display: block;
+}
+.whiteBg{
+	background-color: #FFF;
+	padding-left: 7px;
+}
+body.whiteBg{
+	padding-left: 0px;
+}
+.aui-btn{
+	border-radius: 7px;
+}
+.aui-mark{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.45);
+	z-index: 9;
+}
+i.aui-input-addon.aui-iconfont.aui-icon-close{
+	color: #dcdcdc !important;
+	display: none;
+}

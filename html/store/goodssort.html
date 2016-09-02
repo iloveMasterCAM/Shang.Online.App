@@ -1,0 +1,43 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>商品分类</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+</head>
+<body >
+
+    <header class="aui-bar aui-bar-nav aui-bar-danger">
+        <a class="aui-pull-left" onclick="closeWin('store-goodssort')">
+            <i class="aui-iconfont aui-icon-left"></i>
+        </a>
+        <div class="aui-title aui-pull-left" style="text-align：center">类别选择</div>
+      
+    </header>
+
+    <script>
+    apiready = function () {
+        var header = $("header").outerHeight();
+        var body_h = $(window).height();
+        var rect_h = body_h - header;
+        api.openFrame({
+            name: 'goodsSort_frm',
+            url: 'goodsSort_frm.html', vScrollBarEnabled: false,
+            //pageParam: { data: d },
+            bounces: true,
+            rect: {
+                x: 0,
+                y: header,
+                w: 'auto',
+                h: rect_h,
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>

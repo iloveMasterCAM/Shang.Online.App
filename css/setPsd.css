@@ -1,0 +1,57 @@
+body{
+	height: auto;
+}
+header.aui-bar{
+	position: fixed;
+	background-color: #fff;
+	color:#010101;
+}
+header.aui-bar .aui-title,header.aui-bar .aui-pull-right{
+	font-size: 14px;
+}
+header.aui-bar .aui-btn {
+	background-color: transparent;
+}
+header.aui-bar .aui-btn .aui-iconfont,header.aui-bar a{
+	color: #f75555;
+}
+.logo{
+	width: 26.8%;
+	margin: 19.4% auto;
+}
+#setPsdForm .aui-form{
+	background: transparent;
+}
+#setPsdForm input[type="text"], #setPsdForm input[type="password"]{
+	padding: 13px 15px;
+}
+#setPsdForm .aui-input-row{
+	width: 100%;
+	margin: 0 0 3.5%;
+	padding: 0;
+	background-color: #fff;
+	padding-left: 9.5%;
+	padding-right: 3.5%;
+}
+#setPsdForm .aui-input-row span{
+	width: 24.5%;
+	text-align: left;
+}
+#setPsdForm .aui-input-row:first-child:after{
+	border-top: 0px solid;
+}
+#setPsdForm .aui-input-row:after{
+	border-bottom: 0px solid;
+}
+#setPsdForm i{
+	color: #dcdcdc;
+	display: none;
+}
+ul{
+	padding-left: 9.5%;
+	margin-top: 8.1%;
+}
+ul li{
+	color: #f75555;
+	font-size: 9px;
+}

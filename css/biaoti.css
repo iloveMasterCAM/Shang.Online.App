@@ -1,0 +1,42 @@
+body{
+    background: #eeeeee;
+    font-family: 方正,兰亭,黑体;
+    color: #575757;
+}
+/*头部固定*/
+.top{
+    position: fixed;
+    width: 100%;
+    z-index: 8;
+}
+/*标题栏*/
+.tapbg{
+    background-color: #f34b4b;
+    width: 100%;
+    height: 7.5%;
+}
+/*36号字体*/
+.text{
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+}
+/*30号字体*/
+.nav{
+    color: #575757;
+    font-size: 15px;
+}
+/*24号字体*/
+.mtext{
+    color: #575757;
+    font-size: 12px;
+}
+/*24号字体白色*/
+.wtext{
+    color: #fff;
+    font-size: 12px;
+}
+/*导航虚线*/
+.border{
+    border-right: #e0e0e0 1px dashed;
+}

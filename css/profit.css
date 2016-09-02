@@ -1,0 +1,31 @@
+#aui-header{color:#fff;background-color:#f34b4b;position:fixed;}
+.fenhong{background-color:#f34b4b;padding:2.6% 0;margin-top:45px;}
+.fenhongdetail{width:95%;margin:auto;padding:2.9% 0;}
+.fenhongdetail>div>p{color:#fff;font-size:18px;}
+.fenhongdetail>div span.money{font-size:12px;}
+.fenhongjiaoyi{border-top:solid #e0e0e0 1px;padding:0.5% 0px;position:fixed;bottom:0;z-index:1;background-color:#fff;width:100%;}
+.fenhongjiaoyi>.borderright{border-right:2px dotted #e0e0e0;}
+.jiaoyi{color:#575757;display:table;padding:2.3% 0;}
+.jiaoyi>p{display:table-cell;vertical-align:middle}
+.jiaoyi>p>img{width:31%;margin-right:10px;vertical-align:middle;}
+.content{margin-bottom:13.6%}
+.listtitle{font-size:15px;color:#575757;}
+.listcontent{display:table;}
+.listcontent>p{color:#f34b4b;font-size:12px;}
+.listcontent>p,
+.listcontent>span{display:table-cell; vertical-align: middle;}
+.listcontent>span{width:7%;}
+.listcontent img{max-width:100%;min-width:13px;}
+.listcontent .amount,
+.listcontent .price{width:46.5%;}
+.listaddress{display:table;width:100%;}
+.listaddress>span,
+.listaddress>p{display:table-cell; vertical-align:middle;}
+.listaddress>p{color:#888;font-size:12px;line-height:1;position:relative;width:95%;word-break:break-all;word-wrap: break-word;}
+.listaddress>span{width:5%;}
+.listaddress img{max-width:100%;min-width:10px;}
+.aui-list-view-cell{padding:2.5% 0;margin:0 1%;}
+.aui-list-view .aui-img-object.aui-pull-left{margin-right:1.4%;}
+.aui-img-body>.aui-col-xs-4{margin-top:5.6%;}
+.aui-list-view .aui-img-object{width:21.5%;}
+.aui-img-body .sell>img{width:53%;}

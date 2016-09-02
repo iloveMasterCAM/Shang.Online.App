@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>确认订单</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+    <style>
+        footer {
+        }
+
+            footer div {
+                height: 55px;
+                text-align: center;
+                color: white;
+                line-height: 55px;
+                border-top: 1px solid #f3f3f3 !important;
+                background-color: #f3f3f3;
+            }
+
+                footer div:after {
+                    background-color: #f6f6f6 !important;
+                }
+
+            footer span {
+                margin-top: 5px;
+                font-size: 20px !important;
+            }
+
+            footer p {
+                font-size: 12px;
+            }
+
+        header {
+            color: #808080;
+        }
+    </style>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+        <a class="aui-pull-left  " onclick="closeWin('store-order')">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+
+        <div class="aui-title aui-pull-left" id="title">确认订单</div>
+        <a class="aui-pull-right" style="font-size:18px;">
+            <span class="fa fa-share-alt"></span>
+        </a>
+    </header>
+
+    <footer class="aui-nav" id="aui-footer" style="border-top:1px solid rgba(128, 128, 128, 0.2);font-size:12px">
+        <div class="aui-col-xs-8 aui-bg-default" style="text-align:right;color:#000">
+            合计: <span class="aui-icon-rmb aui-text-danger" style="font-size:12px; margin-right:15px;" id="money"> </span>
+        </div> 
+        <div class="aui-col-xs-4 aui-bg-danger" onclick="createOrder()">
+            确认
+        </div>
+    </footer>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script>
+        $(function () {
+            apiready = function () {
+
+                var data = api.pageParam.data;
+
+                $("#money").text(data.price);
+
+                var header = $("header").outerHeight();
+                var body_h = $(window).height();
+                var rect_h = body_h - header - $("footer").height();
+
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '加载...',
+                    text: '',
+                    modal: true
+                });
+              
+                post(dburl.store.order, { values: { id: data.id } }, function (d) {
+     
+                    api.openFrame({
+                        name: 'store-order_frm',
+                        url: 'order_frm.html', vScrollBarEnabled: false,
+                        pageParam: { data: d.D },
+                        
+                        bounces: false,
+                        rect: {
+                            x: 0,
+                            y: header,
+                            w: 'auto',
+                            h: rect_h,
+                        }
+                    });
+                    api.hideProgress();
+                });
+            }
+        })
+        var changeMoney = function (m) {
+            $("#money").text(m);
+        }
+        var createOrder = function () {
+            api.execScript({
+                name: 'store-order',
+                frameName: "store-order_frm",
+                script: "CreateOrder()"
+
+            });
+        }
+    </script>
+</body>
+</html>

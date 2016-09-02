@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>优选商铺</title>
+    <link rel="stylesheet" type="text/css" href="../../css/set.css">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../../css/change_zhang.css">
+    <script src="../../script/artTemplate.js"></script>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav aui-bar-danger" style="position:fixed;z-index:1002">
+        <a class="aui-pull-left" ontouchend="closeWin()">
+            <i class="aui-iconfont aui-icon-left"></i>
+        </a>
+        <a class="aui-pull-right" style="display:block" id="searchIcon" ontouchend="openSearchFrame()">
+            <!--原先为showSearch();测试新搜索页-->
+            <i class="aui-iconfont aui-icon-search"></i>
+        </a>
+        <h2 class="aui-title " style="display:block" id="headTitle">优选商铺</h2>
+
+        <!--<div class="aui-searchbar aui-border-radius" style="background-color:#fff;display:none;width:70%!important" id="searchInput">
+            &nbsp;
+            <i class="aui-iconfont aui-icon-search" style="color:gray" ontouchend="search()"></i>
+            <div class="aui-searchbar-input">
+                <input type="text" placeholder="请输入店铺名" id="searchWord">
+            </div>
+        </div>
+        <a class="aui-pull-right" style="display:none" ontouchend="hideSearch()" id="searchCancel">
+            取消
+        </a>-->
+    </header>
+
+    <div class="aui-content" style="padding-top:45px">
+
+        <ul class="aui-list-view" id="content"></ul>
+
+    </div>
+
+    <script type="text/html" id="tmp">
+        {{each D as d i}}
+        <li class="shopZone">
+            <div onclick="openWin('store-shopgoodslist_head','shopgoodslist_head.html','{{d.id}}')">
+                <div class="shopBanner">
+                    <img src="{{d.picture}}">
+                    <span class="shopName">{{d.name}}</span>
+                    <span class="aui-pull-right">
+                        {{if d.location<1000}}
+                        <span>{{d.location}}</span>m
+                        {{else}}
+                        <span>{{(d.location/1000).toFixed(2)}}</span>km
+                        {{/if}}
+                    </span>
+                </div>
+
+                <div class="clearfix shopShow">
+
+                    {{each d.banner as img i}}
+                    {{if i <3}}
+                    <div class="aui-col-xs-4">
+                        <img src="{{img}}">
+                    </div>
+                    {{/if}}
+                    {{/each}}
+
+                </div>
+                <p class="aui-ellipsis-2">
+                    {{d.Discription}}
+                </p>
+            </div>
+
+            <div class="addressMsg" onclick="openWin('store-map','map.html','{{d.shopId}}')" style="z-index:99">
+                <img class="aui-pull-left locateImg" src="../../image/shop/locate.png">
+                <span>{{d.adress}}</span>
+                <img class="aui-pull-right leadImg" src="../../image/shop/lead.png">
+            </div>
+        </li>
+
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        var pageIndex = 1;
+        var type = "";
+        var searchCon = "";
+
+        apiready = function () {
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+
+                load();
+            });
+
+            //api.setRefreshHeaderInfo({
+            //    visible: true,
+            //    loadingImg: 'widget://image/refresh.png',
+            //    bgColor: '#ccc',
+            //    textColor: '#fff',
+            //    textDown: '下拉刷新...',
+            //    textUp: '松开刷新...',
+            //    showTime: true
+            //}, function (ret, err) {
+            //    $("#content").html("");
+            //    pageIndex = 1;
+
+            //    load();
+            //    api.refreshHeaderLoadDone();
+            //});
+
+            api.addEventListener({
+                name: 'search'
+            }, function (ret, err) {
+                if (ret) {
+                    //alert(JSON.stringify(ret));
+
+                    searchCon = ret.value.key;
+                    pageIndex = 1;
+
+                    $('#content').html('');
+                    load();
+                }
+                else {
+                    //alert(JSON.stringify(ret));
+                    alert('搜索失败...')
+                }
+            })
+
+        }
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.store.prefershop, { values: { lon: localStorage["lon"], lat: localStorage["lat"], type: type, pageIndex: pageIndex, name: searchCon } }, function (d) {
+                $("#content").append(template('tmp', d));
+                pageIndex += 1;
+                api.hideProgress();
+            });
+
+
+        }
+
+        //旧版检索
+        //var hideSearch = function () {
+        //    $('#searchInput').css({ 'display': 'none' });
+        //    $('#searchCancel').css({ 'display': 'none' });
+        //    $('#searchIcon').css({ 'display': 'block' });
+        //    $('#headTitle').css({ 'display': 'block' });
+
+        //    pageIndex = 1;
+        //    searchCon = '';
+
+        //    $('#content').html('');
+        //    load();
+        //}
+
+        //var showSearch = function () {
+        //    $('#searchIcon').css({ 'display': 'none' });
+        //    $('#headTitle').css({ 'display': 'none' });
+        //    $('#searchInput').css({ 'display': 'inline-block' });
+        //    $('#searchCancel').css({ 'display': 'block' });
+        //}
+
+        //var search = function () {
+        //    var con = $('#searchWord').val();
+
+        //    if (con == '') {
+        //        alert('请输入检索内容');
+        //        return;
+        //    }
+
+        //    searchCon = con;
+        //    pageIndex = 1;
+
+        //    $('#content').html('');
+        //    load();
+        //}
+
+        //新版检索
+        var openSearchFrame = function () {
+
+            api.openFrame({
+                name: 'searchshop_frm',
+                url: 'searchshop_frm.html',
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: 'auto',
+                    h: 'auto'
+                },
+                pageParam: {
+                    name: 'test'
+                },
+                bounces: true,
+                bgColor: 'rgba(0,0,0,0)',
+                vScrollBarEnabled: false,
+                hScrollBarEnabled: false,
+                bounces: false,
+                animation: {
+                    type: "fade",
+                    subType: "from_top"
+                }
+            });
+        }
+    </script>
+
+
+</body>
+
+
+
+</html>

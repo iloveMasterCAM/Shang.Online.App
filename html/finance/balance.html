@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>余额</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/set.css">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body class="whiteBg">
+	<!-- 顶部导航栏 -->
+	<header class="aui-bar aui-bar-nav aui-bar-danger">
+		<a class="aui-btn aui-btn-danger aui-pull-left" ontouchend="closeWin()">
+			<span class="aui-iconfont aui-icon-left"></span>
+		</a>
+		<div class="aui-title">余额</div>
+        <div class="aui-pull-right"><span style="padding: 5px;padding-left: 10px;border-left: 1px solid;font-size: 10px;" ontouchend="openWin('finance-balancemsg','balancemsg.html')">余额明细</span></div>
+	</header>
+    <p class="littleTit textCenter">商加安全支付</p>
+    <div class="aui-content whiteBg mybalance textCenter">
+        <img src="../../image/mine/diamond.png">
+        <p></p>
+        <span id="cash"></span>
+        <div class="aui-btn aui-btn-block aui-btn-success" ontouchend="recharge()">充值</div>
+        <div class="aui-btn aui-btn-block aui-btn-info" ontouchend="withdraw()">提现</div>
+    </div>
+
+    <script type="text/javascript">
+        apiready = function () {
+            post(dburl.account.remainder, { values: {} }, function (r) {
+                $('#cash').html(r.D.remainder);
+            })
+
+            api.addEventListener({
+                name: 'logined',
+            }, function (ret, err) {
+                post(dburl.account.remainder, { values: {} }, function (r) {
+                    $('#cash').html(r.D.remainder);
+                })
+            })
+        }
+
+        var recharge = function () {
+            //客服要求输入密码步骤放到之后
+            //verifySafepwd(function () {
+            openWin('finance-topup', 'topup.html');
+            //})
+        }
+
+        var withdraw = function () {
+            //verifySafepwd(function () {
+            openWin('finance-withdraw', 'withdraw.html');
+            //})
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+
+/*饭店-小窗口*/
+.sell{
+    height: 15%;
+    background-color: #fff;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 2%;
+}
+/*图片*/
+.sellimg{
+    overflow: hidden;
+    width: 90px;
+    height: 90px;
+}
+/*数据*/
+.selldiv{
+    width: 72%;
+    margin-left: 10px;
+    padding-top: 1%;
+    margin-right: -20px;
+    height: auto;
+}

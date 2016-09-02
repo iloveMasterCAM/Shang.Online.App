@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/login.css">
+    <link rel="stylesheet" type="text/css" href="../../css/change_zhang.css">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+</head>
+<body id="login">
+	<header class="aui-bar aui-bar-nav loginHeader">
+		<!-- 返回图标 -->
+		<a class="aui-pull-left" onclick="closeWin()">
+			<i class="aui-iconfont aui-icon-left aui-text-danger"></i>
+		</a>
+		<div class="aui-title"></div>
+	</header>
+	<div id="loginLogo" class="aui-content mineLogo">
+		<img src="../../image/mine/mine_logo.png">
+	</div>
+	<div id="loginFrom" class="aui-content">
+		<div class="aui-form">
+			<div class="aui-input-row">
+				<i class="aui-input-addon aui-iconfont aui-icon-people"></i>
+				<input type="text" class="aui-input" placeholder=" 请输入手机号" id="name"/>
+				<i class="aui-input-addon aui-iconfont aui-icon-close"></i>
+			</div>
+			<div class="aui-input-row">
+				<i class="aui-input-addon aui-iconfont aui-icon-lock"></i>
+				<input type="password" class="aui-input" placeholder=" 请输入密码" id="password"/>
+                <i class="aui-input-addon aui-iconfont aui-icon-close"></i>
+			</div>
+		</div>
+				</div>			
+	<div class="btnGroup">
+		<div class="aui-btn aui-btn-block aui-btn-danger" onclick="login()">登录</div>
+		<p class="clearfix"><span class="aui-pull-left aui-text-danger" onclick="openWin('mine-register', 'register.html')">新用户</span><span class="aui-pull-right" onclick="openWin('mine-selectpsd', 'selectpsd.html')">忘记密码？</span></p>
+			</div>
+	
+	<script type="text/javascript" src="../../script/showCancel.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $("#name").val(localStorage["phone"]);
+            apiready = function () {
+
+            }
+        })
+
+        function login() {
+            var name = $('#name').val();
+            var pwd = $('#password').val();
+            if (name == "" || pwd == "" || name.length < 4 || pwd.length < 6) {
+                $aui.alert({ content: '请检查帐户名密码', buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+                return;
+            }
+
+            post(dburl.account.login_members, { values: { name: name, pwd: pwd } }, function (d) {
+                if(d.S)
+                {
+                    localStorage["token"] = d.D.token;
+                    localStorage["name"] = d.D.name;
+                    localStorage["phone"] = name;
+                    localStorage["headurl"] = d.D.head;
+                    localStorage["cash"] = d.D.cash;//用户余额
+                    //用户坐标暂设为0，后期使用百度地图
+                    localStorage["lon"] = 0;
+                    localStorage["lat"] = 0;
+                    downhead(d.D.head);
+                    api.sendEvent({ name: "logined" });//登录成功事件
+                    closeWin();
+                }
+                else
+                {
+                    $aui.alert({ content: d.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+                }
+            })
+        }
+
+        function downhead(src) {
+            api.download({
+                url: src,
+                cache: true,
+                allowResume: true
+            }, function (ret, err) {
+                if (ret) {
+                    //更新帐户中心的头像显示
+                    localStorage["head"] = ret.savePath;
+                    api.sendEvent({ name: "changehead", extra: ret.savePath });
+                } else {
+
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>

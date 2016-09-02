@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>商家历史分红</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/base_qh.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/history_profit.css" />
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <span class="aui-pull-left aui-iconfont aui-icon-left" ontouchstart="closeWin()"></span>
+        <div class="aui-title" id="header-title">商家历史分红</div>
+        <span class="aui-pull-right user-log" ontouchstart="openWin('mine-myequity','../mine/myequity_bar.html')">
+            <img src="../../image/equity/market1.png" />
+        </span>
+    </header>
+
+    <script type="text/javascript">
+        apiready = function () {
+            var id = api.pageParam.data;
+            var header = $('#aui-header').outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+
+            api.openFrame({
+                name: 'history_profit',
+                url: 'history_profit.html', vScrollBarEnabled: false,
+                bounces: false,
+                pageParam: { data: id },
+                rect: {
+                    x: 0,
+                    y: header,
+                    w: 'auto',
+                    h: rect_h,
+                }
+            });
+        }
+    </script>
+</body>
+</html>

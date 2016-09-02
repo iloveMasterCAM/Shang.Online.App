@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>交易详情</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/money.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body class="whiteBg">
+	<!-- 顶部导航栏 -->
+	<!--<header id="paySuccess" class="aui-bar aui-bar-nav aui-bar-danger">
+		<div class="title">
+            <span class="aui-pull-left aui-iconfont aui-icon-left"></span>
+			<span class="topper">交易详情</span>
+		</div>		
+	</header>-->
+    <header id="bankTop" class="aui-bar aui-bar-nav aui-bar-danger">
+        <a class="exBtn aui-btn aui-btn-danger aui-pull-left" ontouchend="closeWin()">
+            <span class="aui-pull-left aui-iconfont aui-icon-left"></span>
+            <span class="topper">订单详情</span>
+        </a>
+    </header>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        <div class="resultInfo">
+            <span class="aui-text-info aui-iconfont aui-icon-roundcheckfill" id="statemark"></span>
+            {{state}}
+        </div>
+        <h1 class="shopName">商加充值</h1>
+
+        <div class="aui-content">
+            <ul class="aui-list-view payDetail">
+                <li class="aui-list-view-cell">
+                    <label class="aui-pull-left">金&nbsp&nbsp&nbsp&nbsp额</label>
+                    <ul class="aui-badge">
+                        <li>&yen;&nbsp;{{money}}</li>
+                    </ul>
+                </li>
+                <li class="aui-list-view-cell">
+                    <label class="aui-pull-left">余&nbsp&nbsp&nbsp&nbsp额</label>
+                    <ul class="aui-badge">
+                        <li>&yen;&nbsp;{{balance}}</li>
+                    </ul>
+                </li>
+                <li class="aui-list-view-cell">
+                    <label class="aui-pull-left">交易单号</label>
+                    <span class="aui-badge">{{orderno}}</span>
+                </li>
+                <li class="aui-list-view-cell">
+                    <label class="aui-pull-left">交易时间</label>
+                    <span class="aui-badge">{{time}}</span>
+                </li>
+                <li class="aui-list-view-cell">
+                    <label class="aui-pull-left">当前状态</label>
+                    <span class="aui-badge">{{state}}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sureBtn aui-btn aui-btn-block aui-btn-info" onclick="skip()">确 定</div>
+    </script>
+    <script type="text/javascript">
+        //$('#statemark').removeClass('aui-icon-roundcheckfill');
+        //$('#statemark').addClass('aui-icon-roundclosefill');
+        var orderno=''
+
+        apiready = function () {
+            orderno = api.pageParam.data.orderno;
+            load();
+        }
+
+        var load = function () {
+            post(dburl.money.orderstate_logtrades, { values: { orderno: orderno } }, function (r) {
+                if (r.S) {
+                    var html = template('tmp', r.D);
+                    $('body').append(html);
+
+                    if (r.D.state == '支付成功' || r.D.state == '支付中') {
+                        
+                    }
+                    else {
+                        $('#statemark').removeClass('aui-icon-roundcheckfill');
+                        $('#statemark').addClass('aui-icon-roundclosefill');
+                    }
+                }
+                else {
+                    $aui.alert({ content: r.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+                }
+                api.sendEvent({ name: "logined" });//发送事件刷新余额值
+            })
+        }
+
+        var skip = function () {
+            api.closeToWin({
+                name: 'finance-balance',
+                animation: {
+                    type: 'flip',
+                    subType: 'from_bottom',
+                    duration: 500
+                }
+            });
+        }
+    </script>
+</body>
+</html>

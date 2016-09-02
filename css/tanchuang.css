@@ -1,0 +1,53 @@
+
+/*遮罩层*/
+#mark{
+    display: none;
+    background: rgba(0, 0, 0, 0.45)
+}
+/*弹窗*/
+#selldialog{
+    display: none;
+}
+.aui-dialog{
+    position: fixed;
+    z-index: 12;
+    width: 83.334%;
+    /*top: 20.78125%;*/
+    height: 280px;
+    border-radius: 5px;
+}
+.aui-dialog-header {
+    padding: 0 0 10px;
+}
+.aui-dialog-header img{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.aui-dialog-body{
+    padding: 0;
+}
+.aui-dialog-body div{
+    width: 42.34%;
+    height: 30px;
+    border: 1px solid #ccc;
+    line-height: 28px;
+    padding: 0 5px;
+    margin: 25px 0 28px;
+}
+input[type="number"]{
+    width: 66%;
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    background-color: transparent;
+}
+.aui-dialog-btn{
+    padding: 0;
+}
+.aui-dialog-btn:after {
+    border-left: none;
+    border-top: none;
+}
+#sell{
+    color: #f34b4b;
+}

@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>短信验证</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/login.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav aui-bar-danger" style="background-color:#282828!important">
+        <a class="aui-btn aui-btn-danger aui-pull-left" style="background-color:#282828!important" onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">绑定银行卡</div>
+        <span class="aui-pull-right" style="font-size:6px;color:#F1EEEE">商加安全支付</span>
+    </header>
+    <!-- 表单部分 -->
+    <div id="writeVerify" class="aui-content">
+        <div class="aui-input-row">
+            <input type="number" class="aui-input" placeholder="  输入验证码" id="code"/>
+            <!--<div class="varifyBtn aui-btn aui-btn-outlined aui-btn-info aui-pull-right">再次发送</div>-->
+        </div>
+        <div class="btnGroup">
+            <div class="aui-btn aui-btn-block aui-btn-info" style="background-color:#26c6e3!important" onclick="commit()">确定</div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        var data = {};
+        apiready = function () {
+            load();
+
+        }
+        var load = function () {
+            data = api.pageParam.data;
+        }
+
+        //提交
+        var commit = function () {
+
+            var code = $("#code").val();
+
+            if (code.length <= 0) {
+                alert("请输入验证码!");
+                return;
+            }
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '数据提交中...',
+                text: '',
+                modal: true
+            });
+            post(dburl.account.safety, {
+                values: {
+                    phone: data.phone,
+                    orderno: data.orderno,
+                    code: code
+                }
+            }, function (r) {
+                if (r.S) {
+                    //银行卡绑定成功
+                    api.sendEvent({
+                        name: 'add-bank-success'
+                    });
+
+                    api.hideProgress();
+
+                    $aui.alert({ content: r.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) {
+                        api.closeToWin({
+                            name: 'bank-cardlist',
+                            animation: {
+                                type: 'flip',
+                                subType: 'from_bottom',
+                                duration: 500
+                            }
+                        });
+                    });
+
+                } else {
+
+                    api.hideProgress();
+
+                    $aui.alert({ content: r.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) {
+                        api.closeToWin({
+                            name: 'bank-cardlist',
+                            animation: {
+                                type: 'flip',
+                                subType: 'from_bottom',
+                                duration: 500
+                            }
+                        });
+                    });
+                }
+            })
+
+        }
+    </script>
+</body>
+</html>

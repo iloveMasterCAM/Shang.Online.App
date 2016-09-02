@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>上传logo</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body style="background-color:#808080">
+
+    <script>
+        var imageClip = {};
+        var img = {};
+        apiready = function () {
+            imageClip = api.require('imageClip');
+            img = api.require('UIMediaScanner');
+            chooseImg();
+        }
+
+        var cup = function (src) {
+            var rectRcg = api.frameWidth * 0.8;
+            imageClip.open({
+                path: src,
+                x: 0,
+                y: api.winHeight - api.frameHeight,
+                clipRect: {
+                    x: (api.frameWidth / 2) - (rectRcg / 2),
+                    y: rectRcg / 2,
+                    w: rectRcg,
+                    h: rectRcg,
+                    fixation: true
+                }
+            }, function (ret, err) {
+                //alert("ret = " + JSON.stringify(ret) + "err = " + JSON.stringify(err))
+            });
+        }
+        var chooseImg = function () {
+            api.toast({
+                msg: '加载相册信息',
+                duration: 2000,
+                location: 'middle'
+            });
+            img.open({
+                type: 'picture',
+                column: 4,
+                classify: true,
+                max: 1,
+                sort: {
+                    key: 'time',
+                    order: 'desc'
+                },
+                texts: {
+                    cancelText: '取消',
+                    finishText: '完成'
+                },
+                styles: {
+                    bg: '#fff',
+                    mark: {
+                        icon: '',
+                        position: 'top_right',
+                        size: 20
+                    },
+                    nav: {
+                        bg: '#eee',
+                        stateColor: '#000',
+                        stateSize: 12,
+                        cancelBg: 'rgba(0,0,0,0)',
+                        cancelColor: '#000',
+                        cancelSize: 12,
+                        finishBg: 'rgba(0,0,0,0)',
+                        finishColor: '#000',
+                        finishSize: 12
+                    }
+                }
+
+
+            }, function (ret, err) {
+                if (ret.list) {
+                    cup(ret.list[0].path);
+                    return;
+                }
+                closeWin("account-head");
+            });
+        }
+
+        var commit = function () {
+            imageClip.save(function (ret, err) {
+                if (ret) {
+                    api.showProgress({
+                        style: 'default',
+                        animationType: 'fade',
+                        title: '上传中...',
+                        text: '',
+                        modal: true
+                    });
+                    api.sendEvent({ name: "showlogo", extra: ret.savePath });
+
+                    closeWin("store-uplogo");
+                }
+                else {
+                    api.alert({ msg: err.msg });
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>

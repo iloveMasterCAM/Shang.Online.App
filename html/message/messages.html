@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>通知消息</title>
+    <link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/find_spec.css">
+    <link rel="stylesheet" type="text/css" href="../../css/set.css">
+    <link rel="icon" href="../../css/aui_iconfont.ttf">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav aui-bar-danger">
+        <!-- 扫描图标 -->
+        <a class="aui-pull-left">
+            <i class="aui-iconfont aui-icon-left" ontouchend="closeWin('message-messages')"></i>
+        </a>
+        <div class="aui-title aui-pull-left">通知消息</div>
+        <!-- 通知图标 -->
+
+    </header>
+
+
+
+    <script>
+        apiready = function () {
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+            api.openFrame({
+                name: 'messages_frm',
+                url: 'messages_frm.html', vScrollBarEnabled: false,
+                bounces: false,
+                rect: {
+                    x: 0,
+                    y: header,
+                    w: 'auto',
+                    h: rect_h,
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

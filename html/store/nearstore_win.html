@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>附近优惠</title>
+    <link rel="stylesheet" type="text/css" href="../../css/set.css">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../../css/change_zhang.css">
+    <script src="../../script/artTemplate.js"></script>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+</head>
+<body>
+    <div class="aui-content">
+
+        <ul class="aui-list-view" id="content">
+            
+        </ul>
+
+    </div>
+
+    <script type="text/html" id="tmp">
+        {{each D as d i}}
+        <li class="shopZone">
+            <div onclick="openWin('store-shopgoodslist_head','shopgoodslist_head.html','{{d.id}}')">
+                <div class="shopBanner">
+                    <img src="{{d.picture}}">
+                    <span class="shopName">{{d.name}}</span>
+                    <span class="aui-pull-right">
+                        {{if d.location<1000}}
+                        <span>{{d.location}}</span>m
+                        {{else}}
+                        <span>{{(d.location/1000).toFixed(2)}}</span>km
+                        {{/if}}
+                    </span>
+                </div>
+
+                <div class="clearfix shopShow">
+
+                    {{each d.banner as img i}}
+                    {{if i <3}}
+                    <div class="aui-col-xs-4">
+                        <img src="{{img}}">
+                    </div>
+                    {{/if}}
+                    {{/each}}
+
+                </div>
+                <p class="aui-ellipsis-2">
+                    {{d.Discription}}
+                </p>
+            </div>
+
+            <div class="addressMsg" onclick="openWin('store-map','map.html','{{d.shopId}}')" style="z-index:99">
+                <img class="aui-pull-left locateImg" src="../../image/shop/locate.png">
+                <span>{{d.adress}}</span>
+                <img class="aui-pull-right leadImg" src="../../image/shop/lead.png">
+            </div>
+        </li>
+
+        {{/each}}
+    </script>
+
+
+    <script type="text/javascript">
+        var pageIndex = 1;
+        var type = "";
+        apiready = function () {
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+
+                load();
+            });
+
+            api.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'widget://image/refresh.png',
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                $("#content").html("");
+                pageIndex = 1;
+
+                load();
+                api.refreshHeaderLoadDone();
+            });
+
+        }
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.store.moreshop, { values: { lon:localStorage["lon"],lat:localStorage["lat"],type: type, pageIndex: pageIndex } }, function (d) {
+                $("#content").append(template('tmp', d));
+                pageIndex += 1;
+                api.hideProgress();
+            });
+
+        }
+
+        var data = function (name) {
+
+            pageIndex = 1;
+            $("#content").html("");
+            type = name;
+            load();
+        }
+    </script>
+
+
+</body>
+
+</html>

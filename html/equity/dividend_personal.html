@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>分红记录</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/aui_iconfont.ttf">
+    <link rel="stylesheet" href="../../css/all.css">
+    <link rel="stylesheet" href="../../css/history.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <!--头部-->
+    <div class="top" id="header">
+        <header class="aui-bar aui-bar-nav redbg" style="height: 48px">
+            <ul>
+                <li class="aui-pull-left">
+                    <i class="aui-iconfont aui-icon-left" ontouchend="closeWin()"></i>
+                </li>
+                <li>
+                    <span class="aui-title">分红记录</span>
+                </li>
+            </ul>
+        </header>
+    </div>
+    <!--内容-->
+    <div id="content">
+        <!--分红总计-->
+        <div class="first clear">
+            <div class="aui-text-center">
+                <span class="mtext">分红总计(元)</span><br />
+                <span class="maxtext" style="font-weight: 500" id="sumMoney">&nbsp;</span>
+            </div>
+        </div>
+        <!--历史分红-->
+        <div class="history clear" style="text-align:center">
+            <img style="width: 360px" src="../../image/equity/history.png" />
+        </div>
+        <!--分红记录-->
+        <div class="second" id="record">
+            <!--<ul>
+                <li class="aui-col-xs-8"><span class="xtext titletext">2016/03/28</span></li>
+                <li class="aui-col-xs-4"><span class="aui-pull-right maxtext redtext">￥50</span></li>
+            </ul>-->
+        </div>
+    </div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each list as l i}}
+        <ul>
+            <li class="aui-col-xs-8"><span class="xtext titletext">{{l.date}}</span></li>
+            <li class="aui-col-xs-4"><span class="aui-pull-right maxtext redtext">￥{{l.money}}</span></li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        var id = '';
+        var pageindex=1;
+        var pagesize=10;
+
+        apiready = function () {
+            id = api.pageParam.data;
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+
+        }
+
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '',
+                text: '加载中...',
+                modal: false
+            });
+
+            post(dburl.equity.udrecord_dividends, { values: { id: id, pageIndex: pageindex, pageSize: pagesize } }, function (r) {
+                pageindex += 1;
+                $('#sumMoney').html(r.D.sum);
+                var html = template('tmp', r.D);
+                $('#record').append(html);
+
+                api.hideProgress();
+            })
+        }
+    </script>
+</body>
+</html>

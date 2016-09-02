@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>上传logo</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body style="font-family: 方正,兰亭,黑体;">
+    <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+        <a class="aui-pull-left  " onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+
+        <div class="aui-title aui-pull-left" style="font-size:18px">上传Logo</div>
+        <span class="aui-pull-right" onclick="commit()">确定</span>
+    </header>
+    <script>
+        apiready = function () {
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+            api.openFrame({
+                name: 'uplogo_frm',
+                url: 'uplogo_frm.html', vScrollBarEnabled: false,
+                bounces: false,
+                rect: {
+                    x: 0,
+                    y: header,
+                    w: 'auto',
+                    h: rect_h,
+                }
+            });
+        }
+        //提交信息
+        var commit = function () {
+            api.execScript({ frameName: "uplogo_frm", script: "commit()" }, function () {
+
+            });
+        }
+    </script>
+</body>
+</html>

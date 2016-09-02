@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>交易记录</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/aui_iconfont.ttf">
+    <link rel="stylesheet" href="../../css/biaoti.css">
+    <link rel="stylesheet" href="../../css/record.css">
+    <link rel="stylesheet" href="../../css/sellrecords.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+
+</head>
+<body>
+    <div>
+        <div class="top" id="head">
+            <!--交易记录-->
+            <header class="aui-bar aui-bar-nav text tapbg">
+                <ul>
+                    <li class="aui-pull-left" ontouchend="closeWin()">
+                        <i class="aui-iconfont aui-icon-left"></i>
+                    </li>
+                    <li>
+                        <span class="aui-title text">交易记录</span>
+                    </li>
+                    <li class=" aui-pull-right">
+                        <i class="aui-iconfont aui-icon-search"></i>
+                    </li>
+                </ul>
+            </header>
+            <!--导航信息-->
+            <div class="aui-tab" id="menu">
+                <ul class="aui-tab-nav nav" id="tabs">
+                    <li class="border"><span class="active" id="ing">正在交易</span></li>
+                    <li><span class="" id="rec">卖出记录</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!--内容-->
+        <div class="aui-content" id="menu_con">
+            <!--正在交易-->
+            <div class="tag" style="display: block" id="now">
+                
+
+            </div>
+            <!--卖出记录-->
+            <div class="tag" style="display: none" id="already">
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp_now">
+        {{each D as m i}}
+        <div class="juli">
+            <ul class="aui-user-view">
+                <!--首行-->
+                <li class="aui-user-view-cell aui-img aui-col-xs-12 one ">
+                    <img class="aui-col-xs-2 conimg" src="{{m.logo}}" />
+                    <div class="aui-col-xs-8 go-up">
+                        <span class="nav">{{m.name}}</span>
+                    </div>
+                </li>
+                <!--第二行-->
+                <li class="two clearfix">
+                    <div class="aui-col-xs-12">
+                        <div class="aui-col-xs-4 xiao">
+                            <span class="stext">当前交易数</span><br />
+                            <span class="nav">{{m.count}}</span>
+                            <span class="nav" style="font-size: 12px">份</span>
+                        </div>
+                        <div class="aui-col-xs-4 xiao">
+                            <span class="stext">单价</span><br />
+                            <span class="nav">{{m.price}}</span>
+                            <span class="nav" style="font-size: 12px">元</span>
+                        </div>
+                        <div class="aui-col-xs-4 xiao">
+                            <span class="stext aui-text-danger">成交</span><br />
+                            <span class="nav aui-text-danger">{{m.sold}}</span>
+                            <span class="nav aui-text-danger" style="font-size: 12px">份</span>
+                        </div>
+                    </div>
+                    <div class="aui-pull-left small">
+                        <span class="aui-iconfont aui-icon-locationfill"></span>
+                        <span>{{m.address}}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="tmp_already">
+        {{each D as m i}}
+        <div class="aui-col-xs-12 sell">
+            <div class="aui-col-xs-2 sellimg"><img style="width: 100%;height: 100%" src="{{m.logo}}" /></div>
+            <div class=" aui-pull-left selldiv">
+                <ul>
+                    <li class="aui-col-xs-12">
+                        <span class="aui-col-xs-6 nav aui-ellipsis-1">{{m.name}}</span>
+                        <span class="aui-col-xs-2 aui-pull-right stext">{{m.time}}</span>
+                    </li>
+                    <li class="aui-col-xs-12" style="display: inline-block">
+                        <div class="aui-col-xs-6">
+                            <span class="mtext">售出</span>
+                            <span class="text aui-text-danger">{{m.number}}</span>
+                            <span class="mtext aui-text-danger">份</span>
+                        </div>
+                        <div class="aui-col-xs-5 aui-pull-right ">
+                            <span class="mtext">收入</span>
+                            <span class="text aui-text-danger">{{m.money}}</span>
+                            <span class="mtext aui-text-danger">元</span>
+                        </div>
+                    </li>
+                    <li class="aui-col-xs-12 small">
+                        <span class="aui-iconfont aui-icon-locationfill"></span>
+                        <span>{{m.address}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script src="../../script/myDialog.js"></script>
+    <script src="../../script/tabnav.js"></script>
+    <script type="text/javascript">
+        var pageIndex = 1;
+        var pageIndexy = 1;
+
+        $('#menu_con').css({ "margin-top": $('#head').outerHeight(), "position": "absolute" });//absolute
+
+        tabs.set("tabs", "menu_con");//执行
+
+        apiready = function () {
+            load_now();
+
+            load_already();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                if ($('.active').attr('id') == 'ing') {
+                    load_now();
+                }
+                if ($('.active').attr('id') == 'rec') {
+                    load_already();
+                }
+            });
+        }
+
+        var load_now = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.market.mymarket, { values: { pageIndex: pageIndex } }, function (r) {
+                var html = template('tmp_now', r);
+                $('#now').append(html);
+                api.hideProgress();
+                pageIndex += 1;
+            })
+        }
+
+        var load_already = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.market.mysold, { values: { pageIndex: pageIndexy } }, function (r) {
+                if (r.S) {
+                    var html = template('tmp_already', r);
+                    $('#already').append(html);
+                    api.hideProgress();
+                    pageIndexy += 1;
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

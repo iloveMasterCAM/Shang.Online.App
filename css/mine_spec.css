@@ -1,0 +1,85 @@
+/*mine_spec*/
+.aui-mine-spec
+{
+    background-color: #ffffff;
+}
+.aui-bar{
+    position: fixed;
+}
+#titleBar
+{
+    background-color: transparent;
+}
+#title{
+    color:rgba(255,255,255,0);
+}
+/*我的动态*/
+.aui-mine-spec-imgDiv{
+    background: url("../image/talk/head_bg.png") no-repeat;
+    width: 100%;
+    background-size: 100%;
+    text-align: center;
+    padding-top: 21%;
+    margin-bottom:10px;
+}
+.aui-mine-spec-imgDiv img{
+    width: 95px;
+    height: 95px;
+    line-height: 95px;
+    border-radius: 50%;
+    border: solid 5px rgba(150,150,150,0.5);
+    position: relative;
+    top: 40px;
+}
+.aui-mine-spec-info
+{
+    padding-top: 30px;
+    background-color: #ffffff;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.aui-mine-spec-info a{
+    color: #b0b0b0;
+    font-size: 12px;
+}
+.aui-tab .border{
+    border-right: #e0e0e0 1px solid;
+}
+
+/*我的关注*/
+.aui-user-view-cell .aui-img-object {
+    border-radius: 0;
+}
+.aui-btn{
+    padding: 0px 10px !important;
+    margin-top: 8px;
+}
+.aui-btn-span{
+    font-size: 12px  !important;
+    color:#bdc3c7  !important;
+}
+.aui-user-view {
+    padding: 0 8px;
+}
+.aui-user-view-cell {
+    padding: 10px 5px;
+}
+.aui-user-view-cell .aui-img-object.aui-pull-left {
+
+}
+.aui-user-view-cell:last-child:after {
+    border-bottom: 0px ;
+}
+.aui-user-view:after {
+border-top: 0px;
+ }
+.aui-user-view {
+    margin-top:10px }
+/*确定弹框*/
+#choseCon{
+    display: none;
+    width: 78.06%;
+}
+#choseConMark{
+    display: none;
+}

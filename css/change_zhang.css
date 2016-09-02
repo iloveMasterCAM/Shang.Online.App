@@ -1,0 +1,137 @@
+/*safepwd/input.html界面*/
+#pwdboard{
+	-webkit-transform:none;
+	transform: none;
+}
+#pwdboard .aui-grid-nine li{
+	font-size: 26px;
+	line-height: 1;
+	font-family: "仿宋" !important;
+}
+#inputGroup input{
+	border: 0 solid;
+	border-right: 1px solid #F3F3F3;
+	font-size: 35px;
+}
+/*首页*/
+#titleBar.barGradient{
+	background-color: transparent;
+	background: -moz-linear-gradient(top, rgba(0,0,0,.4) 0%, rgba(0,0,0,0) 100%);
+	background: -webkit-linear-gradient(top, rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 100%);
+	background: -o-linear-gradient(top, rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 100%);
+	background: -ms-linear-gradient(top, rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 100%);
+	background: linear-gradient(to bottom, rgba(0,0,0,.4) 0%,rgba(0,0,0,0) 100%);
+}
+#classifyNav,#classifyNav .aui-col-xs-3,#classifyNav img{
+	padding-top: 0;
+}
+#swiper2 .aui-pull-right{
+	width: auto;
+}
+/*添加银行卡页*/
+#check:checked:before{
+	display: none;
+}
+#check:checked:after{
+	line-height: 1;
+	left: 1px;
+	top: 1.5px;
+	font-size: 12px;
+}
+/*mine/register.html界面*/
+#registerForm .aui-input-row:after{
+	border-bottom: 1px solid #F3F3F3;
+}
+#registerForm i.aui-iconfont,.inviteForm i.aui-iconfont{
+	color: #CCC;
+	display: none;
+}
+#registerForm .aui-form,.inviteForm{
+	border: 0px solid;
+}
+/*登录界面输入框变大*/
+#loginFrom .aui-input-row .aui-input{
+	padding-left: 5px;
+	padding-right: 2px;
+}
+/*附近优惠改版2016.04.29*/
+#content.aui-list-view{
+	background-color: #F3F3F3;
+}
+#content.aui-list-view:after{
+	border-top: 0px solid;
+}
+.shopZone{
+	background-color: #FFF;
+	margin-top: 2%;
+}
+.shopBanner{
+	display: table;
+	width: 95%;
+	margin: 0 auto;
+	padding: 0 3%;
+}
+.shopBanner span{
+	line-height: 52px;
+}
+.shopBanner img{
+	vertical-align: sub;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+}
+.shopBanner span.aui-pull-right{
+	font-size: 12px;
+	color: #888;
+}
+.shopBanner .shopName{
+	vertical-align: super;
+	margin-left: 2%;
+	font-size: 15px;
+	color: #575757;
+}
+.shopZone .aui-col-xs-4{
+	padding-right: 6px;
+	overflow: hidden;
+	height: 112px;
+}
+.shopZone .aui-col-xs-4:last-child{
+	padding-right: 0;
+}
+.shopZone .aui-col-xs-4 img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/*border: 1px solid #eee;*/
+}
+.shopShow{
+	padding: 0 12px;
+}
+.shopZone .aui-ellipsis-2,.shopZone .addressMsg{
+	padding: 0 5%;
+	font-size: 12px;
+}
+.shopZone .aui-ellipsis-2{
+	margin: 3% 0;
+}
+.shopZone .addressMsg{
+	border-top: 1px solid #eee;
+	padding: 4% 3% 4% 5%;
+	color: #B0B0B0;
+	/*垂直居中*/
+	-webkit-align-items: center;  
+	-ms-flex-align: center;  
+	align-items: center;
+	display: -webkit-flex;
+	display: flex;
+}
+.shopZone .addressMsg span{
+	flex: 1;
+}
+.addressMsg .locateImg{
+	width: 5%;
+	margin-right: 5px;
+}
+.leadImg{
+	width: 14.2%;
+}

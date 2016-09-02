@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>店铺内商品列表</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    
+    <!-- 瀑布流 -->
+    <!--<div class="aui-content" id="content">
+        <ul class="shopList aui-waterfall clearfix" id="aui-waterfall"> 
+            
+        </ul>
+    </div>-->
+    <div class="aui-content" id="content">
+        <ul class="aui-waterfall" id="aui-waterfall">
+
+
+        </ul>
+    </div>
+    <script type="text/html" id="goods_tmp">
+        {{each D as m i}}
+        <li class="aui-col-xs-6" onclick="openWin('store-goodsdetail','goodsdetail_bar.html',{id:'{{m.id}}'})" style="height:auto !important;width:48%;float:left; margin-left:5px;">
+             <div class="aui-waterfall-header aui-text-center" style="text-align:center !important;background-color:white;height:150px !important;">
+                <img src="{{m.pic}}" class="" style="max-height:150px;width:auto; max-width:100%;margin-left:auto;margin-right:auto"/>
+
+            </div>
+        <div class="aui-waterfall-body aui-ellipsis-1">
+                {{m.name}}
+        </div>
+          <div class="aui-waterfall-footer" style="height:auto !important;padding-bottom:5px !important; overflow:visible">
+
+                <div class="aui-text-info">
+                    <span class="aui-icon-rmb aui-text-danger" style="font-size:16px;">&yen;:{{m.price}}</span>
+                    <span class="aui-icon-heart aui-pull-right">售:{{m.share}}份</span>
+                </div>
+                <div class="aui-text-info" style="color:#808080 !important">
+                    <span class="">分红金:{{m.inprice}}</span>
+                    <span class="aui-icon-heart aui-pull-right" style="color:#f34b4b">{{m.entity}}份</span>
+                </div>
+                <div class="aui-text-info" style="color:#808080 !important">
+                    
+                </div>
+
+            </div>
+        
+       
+        </li>
+        {{/each}}
+    </script>
+
+
+
+    <script src="../../script/artTemplate.js"></script>
+
+    <!--<script type="text/html" id="goods_tmp">
+        {{each D as m i}}
+        <li class="aui-col-xs-6" onclick="openWin('store-goodsdetail','goodsdetail_bar.html',{id:'{{m.id}}'})">
+            <div class="aui-waterfall-header">
+                <img src="{{m.pic}}" />
+                <p>{{m.des}}</p>
+            </div>
+            <div class="aui-waterfall-footer">
+                <div class="clearfix">
+                    <div class="clearfix">
+                        <span class="aui-pull-left">
+                            &yen;{{m.price}}
+                        </span>
+                        <span class="aui-pull-right">
+                            &yen;{{m.share}}分佣
+                        </span>
+                    </div>
+
+                    <p class="aui-text-danger">分红金:<span>{{m.inprice}}</span></p>
+                    <p>{{m.name}}</p>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+    </script>-->
+
+    <script type="text/javascript">
+        
+        var pageIndex = 1;
+        var orgId = "";
+        apiready = function () {
+            orgId = api.pageParam.data;
+           
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '加载...',
+                    text: '',
+                    modal: false
+                });
+                load();
+            });
+
+            api.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'widget://image/refresh.png',
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                $("#aui-waterfall").html("");
+                pageIndex = 1;
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '加载...',
+                    text: '',
+                    modal: false
+                });
+                load();
+                api.refreshHeaderLoadDone();
+            });
+
+        }
+
+        var load = function () {
+         
+            post(dburl.store.list_shopshopstore, { values: { o: orgId, pageIndex:pageIndex } }, function (d) {
+                var html = template('goods_tmp', d);
+                $('#aui-waterfall').append(html);
+                pageIndex += 1;
+                api.hideProgress();
+            })
+        }
+    </script>
+</body>
+</html>

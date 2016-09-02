@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>店铺导航</title>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+</head>
+<body>
+
+    <script type="text/javascript">
+        var lon = 0;
+        var lat = 0;
+        var shopId = '';
+        var map = {};
+
+        apiready = function () {
+            shopId = api.pageParam.data;
+            map = api.require('bMap');
+
+            getLocation();
+
+            openMap();
+
+            openMapBtn();
+
+            api.addEventListener({
+                name: 'walk'
+            }, function (ret, err) {
+                if (ret) {
+                    showWalkRoute();
+                } else {
+                    //alert(JSON.stringify(err));
+                    alert('绘制路线失败...')
+                }
+            });
+
+            api.addEventListener({
+                name: 'drive'
+            }, function (ret, err) {
+                if (ret) {
+                    showCarRoute();
+                } else {
+                    //alert(JSON.stringify(err));
+                    alert('绘制路线失败...')
+                }
+            });
+
+            api.addEventListener({
+                name: 'bus'
+            }, function (ret, err) {
+                if (ret) {
+                    showBusRoute();
+                } else {
+                    //alert(JSON.stringify(err));
+                    alert('绘制路线失败...')
+                }
+            });
+
+        }
+
+        var openMapBtn = function () {
+            var w = $(window).width();
+            var left = w - 84;
+            api.openFrame({
+                name: 'map_operation',
+                url: 'map_operation.html',
+                rect: {
+                    x: left,
+                    y: 0,
+                    w: 'auto',
+                    h: 186
+                },
+                bounces: false,
+                bgColor: 'rgba(0,0,0,0)',
+                vScrollBarEnabled: false,
+                hScrollBarEnabled: false
+            });
+        }
+
+        var getLocation = function () {
+            post(dburl.store.getlocation, { values: { id: shopId } }, function (r) {
+                if (r.S) {
+                    lon = r.D.lon;
+                    lat = r.D.lat;
+                }
+                else {
+                    lon = localStorage["lon"];
+                    lat = localStorage["lat"];
+                    api.toast({
+                        msg: "获取店铺位置信息失败..",
+                        duration: 2000,
+                        location:'bottom'
+                    })
+                }
+
+            })
+        }
+
+        var openMap = function () {
+            map.open({
+                rect: {
+                    x: 0,
+                    y: 0,
+                },
+                center: {
+                    lon: lon,
+                    lat: lat
+                },
+                zoomLevel: 15,
+                showUserLocation: true,
+                fixed: true
+            }, function (ret) {
+                if (ret.status) {
+                    //alert('地图打开成功');
+                    map.addCircle({
+                        id: 4,
+                        center: {
+                            lon: lon,
+                            lat: lat
+                        },
+                        radius: 30,
+                        styles: {
+                            borderColor: '#FF0000',
+                            borderWidth: 0,
+                            fillColor: '#FF0000'
+                        }
+                    });
+
+                    showWalkRoute();
+                }
+            });
+        }
+
+        var showCarRoute = function () {
+            delRoute();
+            map.searchRoute({
+                id: 1,
+                type: 'drive',
+                policy: 'ecar_dis_first',
+                start: {
+                    lon: localStorage["lon"],
+                    lat: localStorage["lat"]
+                },
+                end: {
+                    lon: lon,
+                    lat: lat
+                }
+            }, function (ret, err) {
+                if (ret.status) {
+                    map.drawRoute({
+                        id: 1,
+                        autoresizing: true,
+                        index: 0,
+                        styles: {
+                            start: {
+                                icon:''
+                            },
+                            end: {
+                                icon:''
+                            }
+                        }
+                    }, function (ret) {
+                        //api.alert({ msg: JSON.stringify(ret) });
+                        api.toast({
+                            msg: '当前为自驾路线',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    });
+                } else {
+                    //api.alert({ msg: JSON.stringify(err) });
+                    alert("查找路线失败...");
+                }
+            });
+        }
+
+        var showWalkRoute = function () {
+            delRoute();
+            map.searchRoute({
+                id: 2,
+                type: 'walk',
+                policy: 'ecar_dis_first',
+                start: {
+                    lon: localStorage["lon"],
+                    lat: localStorage["lat"]
+                },
+                end: {
+                    lon: lon,
+                    lat: lat
+                }
+            }, function (ret, err) {
+                if (ret.status) {
+                    map.drawRoute({
+                        id: 2,
+                        autoresizing: true,
+                        index: 0,
+                        styles: {
+                            start: {
+                                icon: ''
+                            },
+                            end: {
+                                icon: ''
+                            }
+                        }
+                    }, function (ret) {
+                        //api.alert({ msg: JSON.stringify(ret) });
+                        api.toast({
+                            msg: '当前为步行路线',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    });
+                } else {
+                    //api.alert({ msg: JSON.stringify(err) });
+                    alert('查找路线失败...');
+                }
+            });
+        }
+
+        var showBusRoute = function () {
+            delRoute();
+            map.searchRoute({
+                id: 3,
+                type: 'transit',
+                policy: 'ecar_dis_first',
+                start: {
+                    lon: localStorage["lon"],
+                    lat: localStorage["lat"]
+                },
+                end: {
+                    lon: lon,
+                    lat: lat
+                }
+            }, function (ret, err) {
+                if (ret.status) {
+                    map.drawRoute({
+                        id:3,
+                        autoresizing: true,
+                        index: 0,
+                        styles: {
+                            start: {
+                                icon: ''
+                            },
+                            end: {
+                                icon: ''
+                            }
+                        }
+                    }, function (ret) {
+                        //api.alert({ msg: JSON.stringify(ret) });
+                        api.toast({
+                            msg: '当前为公交路线',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    });
+                } else {
+                    //api.alert({ msg: JSON.stringify(err) });
+                    alert('查找路线失败...');
+                }
+            });
+        }
+
+        var delRoute = function () {
+            map.removeRoute({
+                ids: [1, 2, 3]
+            });
+        }
+
+    </script>
+</body>
+</html>

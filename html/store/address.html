@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>选择修改地址</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+        <a class="aui-pull-left  " onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+
+        <div class="aui-title aui-pull-left" id="title">收货地址</div>
+        <a class="aui-pull-right" style="font-size:18px;">
+            <span class="fa fa-share-alt"></span>
+        </a>
+    </header>
+
+
+
+  
+    <div class="aui-form" style="font-size:12px !important">
+
+        <div class="aui-input-row">
+
+            <label class="aui-input-addon">姓名</label>
+
+            <input type="text" id="name" required class="aui-input" placeholder="输入收货人姓名" />
+
+        </div>
+
+
+        <div class="aui-input-row">
+
+            <span class="aui-input-addon">电话</span>
+
+            <input type="tel" id="tel" required class="aui-input" placeholder="输入收货人联系电话" />
+
+        </div>
+
+        <div class="aui-input-row">
+
+            <span class="aui-input-addon">地址</span>
+
+            <input type="text" id="address" required class="aui-input" placeholder="输入收货人地址" />
+
+        </div>
+
+
+        <div class="aui-btn-row">
+
+            <div class="aui-btn aui-btn-success aui-btn-block" onclick="checked()">确认</div>
+
+        </div>
+
+    </div>
+
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script>
+        var parentFram = "";
+        var parentWin = "";
+        $(function () {
+            apiready = function () {
+
+                parentFram = api.pageParam.data.fram;
+                parentWin = api.pageParam.data.win;
+                //alert( "parentFram:" + parentFram + ",parentWin:" + parentWin);
+            }
+        })
+        var checked = function () {
+            var d = { name: $("#name").val(), tel: $("#tel").val(), address: $("#address").val() };
+            localStorage["address"] = JSON.stringify(d);
+            var script = "changeaddress()";
+            api.execScript({ name: parentWin, frameName: parentFram, script: script });
+            closeWin();
+        }
+    </script>
+</body>
+</html>

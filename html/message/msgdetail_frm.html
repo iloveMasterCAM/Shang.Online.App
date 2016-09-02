@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <title>通知消息</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="商加在线 个体工商户升级转型服务平台">
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <link href="../../assets/css/amazeui.css" rel="stylesheet" />
+    <script src="../../assets/js/amazeui.js"></script>
+</head>
+<body>
+    <div class="intro-text" id="content">
+        
+    </div>
+
+    <script src="../../assets/js/handlebars.min.js"></script>
+    <script type="text/x-handlebars-template" id="data">
+        <h3 style="margin-left:10px;margin-bottom:5px;margin-top:10px">{{title}}</h3>
+        <h style="margin-left:10px"><font color="#B3B3B3" size="1">发件人：商加在线运营部</font></h>
+        <br>
+        <h style="margin-left:10px"><font color="#B3B3B3" size="1">时间：{{time}}</font></h>
+        <article data-am-widget="paragraph"
+                 class="am-paragraph am-paragraph-default"
+                 data-am-paragraph="{ tableScrollable: true, pureview: true }">
+
+            <p class=paragraph-default-p>
+                {{content}}
+            </p>
+        </article>
+    </script>
+
+    <script type="text/javascript">
+        apiready = function () {
+            var d = api.pageParam.data;
+            var temp = $("#data").html();
+            var compiled = Handlebars.compile(temp);
+            $("#content").append(compiled(d));
+        }
+    </script>
+</body>
+</html>

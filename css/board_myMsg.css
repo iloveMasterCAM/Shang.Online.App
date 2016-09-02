@@ -1,0 +1,132 @@
+body{
+	background: #fff;
+}
+header.aui-bar{
+	position: fixed;
+	background-color: rgba(0,0,0,.3);
+}
+.myProfile{
+	width: 25%;
+	margin: -16% auto;
+	
+	overflow: hidden;
+}
+.myProfile img,.friendProfile img{
+	border-radius: 50%;
+}
+.myProfile p,.friendProfile p{
+	text-align: center;
+	font-size: 16px;
+}
+.myProfile i,.friendProfile i{
+	color:#ee7357; 
+}
+.detailMsg{
+	margin: 25% auto 0px;
+	margin-top: 25%;
+	width: 90%;
+}
+.detailMsg .aui-col-xs-12{
+	min-height: 50px;
+	/*line-height: 50px;*/
+	border-bottom: 1px solid #b6bab8;
+}
+.detailMsg .aui-col-xs-4,.detailMsg .aui-col-xs-8{
+	padding: 10px 0;
+}
+.detailMsg .aui-col-xs-12:last-child{
+	border-bottom: 0px solid;
+}
+.detailMsg .aui-col-xs-8{
+	color: #888;
+}
+.aui-btn-block{
+	width: 90%;
+	margin: 10px auto;
+}
+
+/*好友资料页*/
+.friendProfile{
+	width: 25%;
+	margin: -37% auto;
+	overflow: hidden;
+}
+.friendProfile p{
+	color: #eee;
+}
+.friendDetail{
+	margin-top: 42%;
+}
+.friendDetailBtn{
+	margin-top: 35%;
+}
+/*查看更多*/
+#menuList{
+	display: none;
+}
+#menuList img{
+	width: 14%;
+	margin-right: 7px;
+}
+.more{
+	position: absolute;
+	right: 5px;
+	top: 44px;
+	padding-left: 0px;
+	font-size: 15px;
+	box-shadow: 5px 5px 18px #575757;
+}
+.more a,.more i.aui-iconfont{
+	color: #575757;
+}
+.more li{
+	padding: 5px 12px;
+}
+.more .alignLeft{
+	text-align: left;
+}
+#menuList i{
+	margin-right: 0px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.more:before{
+	content: "";
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    width: 0px;
+    height: 0px;
+    border: 10px solid transparent;
+    border-bottom-color: rgb(255, 255, 255);
+}
+/*加入黑名单弹框样式*/
+#blacklistDialog{
+	color: #575757;
+	top: 50%;
+}
+#blacklistDialog .aui-dialog-header{
+	text-align: left;
+}
+#blacklistDialog .aui-dialog-btn:after{
+	border-top: 0px solid;
+	border-left: 0px solid;
+}
+.aui-mark{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.6);
+	z-index: 11;
+}
+#blacklistDialog .aui-dialog-footer{
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+}
+#blacklistDialog .aui-dialog-btn{
+	display: inline-block;
+	padding: 15px 10px;
+}

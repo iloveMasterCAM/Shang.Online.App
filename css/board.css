@@ -1,0 +1,112 @@
+/*查找好友*/
+.mySearchBox{
+	margin: 10px auto;
+}
+div.aui-searchbar{
+	margin-right: 0px;
+	width: 79%;
+	-webkit-box-pack: inherit;
+	-webkit-box-align: inherit;
+	float: left;
+}
+.mySearchBox a{
+	float: left;
+	padding: 5px 12px;
+	border-radius: 0px;
+}
+/*董事会页*/
+#bordPage.aui-bar{
+	background-color: #fff;
+	line-height: 12px;
+	border-bottom: 1px solid #888;
+}
+#bordPage .aui-tab{
+	width: 66.66666667%;
+	display: inline-block;
+}
+#bordPage.aui-bar .aui-pull-left{
+	width: 11%;
+}
+#bordPage.aui-bar .aui-pull-left img{
+	    margin: 6px 5px 0px 5px;
+}
+#bordPage.aui-bar .aui-iconfont{
+	color: #888;
+}
+#bordPage .aui-tab-nav{
+	overflow: visible;
+}
+#bordPage .aui-tab-nav li{
+	height: 46px;
+	line-height: 45px;
+}
+/*搜索框*/
+div.addMargin{
+	margin-right: 10px;
+}
+.addMargin.aui-searchbar{
+	background-color: #eee;
+}
+/*董事会列表*/
+.aui-list-view:after{
+	border-top: 0px solid;
+}
+.aui-list-view-cell span{
+	margin-left: 10px;
+
+}
+.textCenter{
+	text-align: center;
+}
+.aui-list-view .aui-img-body{
+	line-height: 60px;
+}
+.aui-list-view.aui-in .aui-list-view-cell:after{
+	left: 70px;
+}
+
+/*董事会好友页*/
+#boardFriend .aui-list-view-cell{
+	padding: 8px 40px;
+}
+#boardFriend .aui-list-view .aui-img-object{
+	max-width: 30px;
+	height: 30px;
+	line-height: 30px;
+}
+#boardFriend .aui-list-view .aui-img-body{
+	line-height: 30px;
+}
+#boardFriend .aui-list-view.aui-in .aui-list-view-cell:after{
+	left: 25px;
+}
+/*字母索引列*/
+.aui-indexed-list-bar{
+	top: 17%;
+}
+.aui-indexed-list-bar a{
+	height: 3%;
+}
+.aui-content > .aui-list-view:last-child{
+	margin-bottom: 0px;
+}
+#boardFriend.aui-content{
+	margin-bottom: 0px;
+}
+.aui-indexed-list{
+	top: 0;
+}
+.aui-indexed-list-view-group{
+	padding: 5px 25px;
+}
+#friendList .aui-list-view .aui-img-object{
+	max-width: 45px;
+	height: 45px;
+	line-height: 45px;
+}
+#friendList .aui-list-view .aui-img-body{
+	line-height: 45px;
+}
+#friendList .aui-list-view-cell{
+	padding: 7px 15px;
+}

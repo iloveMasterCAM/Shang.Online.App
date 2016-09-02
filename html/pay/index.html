@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>订单支付</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+
+        <a class="aui-pull-left" ontouchend="closeWin()">
+
+            <span class="aui-iconfont aui-icon-left"></span>
+
+        </a>
+
+        <div class="aui-title" id="title">订单支付</div>
+        <a class="aui-pull-right">
+
+            <!--<span class="aui-iconfont aui-icon-share-alt"></span>-->
+
+        </a>
+    </header>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script>
+        apiready = function () {
+            var orderno = api.pageParam.data.orderno;
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载订单..',
+                text: '',
+                modal: true
+            });
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+           
+            post(dburl.pay.order, { values: { orderno: orderno } }, function (r) {
+                api.openFrame({
+                    name: 'pay-index_frm',
+                    url: 'index_frm.html', vScrollBarEnabled: false,
+                    pageParam: r.D,
+                    bounces: false,
+                    rect: {
+                        x: 0,
+                        y: header,
+                        w: 'auto',
+                        h: rect_h,
+                    }
+                });
+                api.hideProgress();
+            })
+        }
+    </script>
+</body>
+</html>

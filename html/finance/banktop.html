@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>余额充值</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/money.css">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+	<!-- 顶部导航栏 -->
+	<header id="bankTop" class="aui-bar aui-bar-nav aui-bar-danger">
+		<a class="exBtn aui-btn aui-btn-danger aui-pull-left" ontouchend="closeWin()">
+			<span class="aui-pull-left aui-iconfont aui-icon-left"></span>
+			<span class="topper">余额充值</span>			
+		</a>
+	</header>
+	
+	<div id="choseBankBtn" class="aui-content">
+		<ul class="aui-list-view">
+			<li class="aui-list-view-cell bankList">
+				<div class="clearfix">
+					<span class="aui-pull-left aui-col-xs-3">银行卡</span>
+					<div class="aui-col-xs-7">
+						<span class="aui-text-info" id="default" data="default"></span>
+						<span class="littleFont">单日交易限额&yen10000.00</span>
+					</div>
+					<span class="aui-iconfont">
+						<img src="../../image/finance/bottom.png">
+					</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div id="nextBtn" class="aui-btn aui-btn-block aui-btn-success" onclick="next()">下一步</div>
+
+
+	<!-- 选择银行卡弹框 -->
+	<div class="aui-dialog" id="choseBank">
+		<div class="aui-dialog-header">选择银行卡</div>
+		<div class="aui-dialog-body aui-text-left" id="content">
+			<!--<label for="item1" class="radioItem">
+                <input id="item1" type="radio" name="bank" checked="checked" value="中国银行储蓄卡(1295)" data="x"> 中国银行储蓄卡(1295)
+			</label>
+			<label for="item2" class="radioItem">
+                <input id="item2" type="radio" name="bank" value="使用新卡充值" data="y"> 使用新卡充值
+			</label>-->
+
+		</div>
+		<div class="aui-dialog-footer">
+			<div id="bankCancelBtn" class="aui-dialog-btn aui-text-danger">取消</div>
+		</div>
+	</div>
+	<div id="choseBankMark" class="aui-mark"></div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each D as m i}}
+        <label for="{{m.id}}" class="radioItem">
+            <input id="{{m.id}}}" type="radio" name="bank" checked="checked" value="{{m.name}}{{m.type}}({{m.shortno}})"> {{m.name}}{{m.type}}({{m.shortno}})
+        </label>
+        {{/each}}
+        <label for="newcard" class="radioItem">
+            <input id="newcard" type="radio" name="bank" value="使用新卡充值"> 使用新卡充值
+        </label>
+    </script>
+
+	<script type="text/javascript" src="../../script/myDialog.js"></script>
+	<script type="text/javascript">
+		document.getElementById("choseBankBtn").onclick=function(argument) {
+			show(choseBank);
+			show(choseBankMark);
+		}
+		document.getElementById("bankCancelBtn").onclick=function(argument) {
+			hide(choseBank);
+			hide(choseBankMark);
+		}
+		
+		var orderno = '';
+		apiready = function () {
+		    orderno = api.pageParam.data.orderno;
+		    api.showProgress({
+		        style: 'default',
+		        animationType: 'fade',
+		        title: '加载银行卡...',
+		        text: '',
+		        modal: true
+		    });
+		    post(dburl.money.list_memberbanks, { values: { type: 3 } }, function (d) {
+		        var html = template('tmp', d);
+		        $('#content').html(html);
+		        //必须储蓄卡
+		        var d_html = "";
+		        if (d.D.length <= 0) {
+		            d_html = "使用新卡充值";
+		            $('#default').html(d_html);
+		            $('#default').attr('data', 'newcard');
+		        }
+		        else {
+		            d_html = d.D[0].name + d.D[0].type + '(' + d.D[0].shortno + ')';
+		            $('#default').html(d_html);
+		            $('#default').attr('data', d.D[0].id);
+		        }
+
+		        $("input[name='bank']").click(function () {
+		            var val = $(this).val();//$("input:radio[name='bank']:checked").val();
+		            var id = $(this).attr('id');
+		            $('#default').html(val);
+		            $('#default').attr('data', id);
+
+		            setTimeout(function () {
+		                hide(choseBank);
+		                hide(choseBankMark);
+		            }, 100);
+		        })
+
+		        api.hideProgress();
+		    })
+		}
+
+		var next = function () {
+		    if ($('#default').attr('data') == 'newcard') {
+		        $aui.alert({ content: '请到我的页面绑定银行卡', buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+		        return;
+		    }
+
+		    verifySafepwd(function () { 
+		        api.showProgress({
+		            style: 'default',
+		            animationType: 'fade',
+		            title: '请稍候...',
+		            text: '',
+		            modal: true
+		        });
+		        var carno = $('#default').attr('data');
+		        post(dburl.money.quickpay, { values: { orderno: orderno, carno: carno } }, function (r) {
+		            if (r.S) {
+		                api.hideProgress();
+		                openWin("finance-rshow", 'rshow.html', { orderno:orderno });
+		            } else {
+		                api.hideProgress();
+		                $aui.alert({ content: r.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+		            }
+		            api.hideProgress();
+		        })
+		    })
+		}
+	</script>
+</body>
+</html>

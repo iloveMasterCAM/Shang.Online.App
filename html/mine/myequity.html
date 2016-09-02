@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的分红权</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/base_qh.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/profit.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/profit_modal.css" />
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <div class="fenhong" style="margin-top:0!important" id="head_content">
+
+    </div>
+
+    <div class="aui-content content" style="margin-bottom:0!important">
+        <ul class="aui-list-view" id="list_content" style="margin-bottom:0!important">
+
+
+        </ul>
+    </div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="head_all">
+        <div class="clearfloat aui-text-center fenhongdetail">
+            <div class="aui-col-xs-6">
+                <p><span class="money">￥</span>{{dividends}}</p>
+                <p>累计总分红</p>
+            </div>
+            <div class="aui-col-xs-6">
+                <p>{{cnt}}</p>
+                <p>分红权商家</p>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/html" id="list_all">
+        {{each D as e i}}
+        
+
+        <li class="aui-list-view-cell aui-img">
+            <div>
+                <img class="aui-img-object aui-pull-left" src="{{e.organize.logo}}">
+                <div class="aui-img-body clearfloat">
+                    <div class="aui-col-xs-8" onclick="openWin('myequity_detail','myequity_detail.html','{{e.equity.id}}')">
+                        <div class="listtitle">
+                            {{e.equity.name}}
+                            <span class="aui-iconfont aui-icon-right"></span>
+                        </div>
+                        <div class="listcontent clearfloat">
+                            <span>
+                                <img src="../../image/mine/icon3.png" />
+                            </span>
+                            <p class="amount">{{e.equity.count}}份</p>
+                            <p class="price">+{{e.dividend.money}}元</p>
+                        </div>
+                        <div class="listaddress">
+                            <span>
+                                <img src="../../image/mine/icon5.png" />
+                            </span>
+                            <p>{{e.organize.address}}</p>
+                        </div>
+                    </div>
+                    <div class="aui-col-xs-4 aui-text-right sell" onclick="openSell('{{e.id}}','{{e.equity.name}}','{{e.equity.count}}')">
+                        <img src="../../image/mine/icon4.png" />
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="tmp_dia">
+        <div class="profit-modal" id="{{mid}}">
+            <div class="modal-container">
+                <div class="modal-title clearfloat">
+                    <span class="name aui-pull-left">{{ename}}</span>
+                    <span class="detail aui-pull-right">
+                        分红权:<span class="amount">{{ecount}}</span><span class="size">份</span>
+                    </span>
+                </div>
+                <div class="modal-body">
+                    <div class="clearfloat">
+                        <label class="form-label">数量:</label>
+                        <input style="margin-bottom:0" class="form-text" type="number" id="{{mid}}_num" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" /><!--正整数-->
+                    </div>
+                    <div class="clearfloat">
+                        <label class="form-label">单价:</label>
+                        <input class="form-text" type="number" id="{{mid}}_price" onkeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" /><!--正浮点数-->
+                    </div>
+                </div>
+                <div class="modal-footer clearfloat">
+                    <div class="aui-col-xs-6 aui-text-right">
+                        <div class="aui-btn btn-white" onclick="closeModal('{{mid}}')">取消</div>
+                    </div>
+                    <div class="aui-col-xs-6 aui-text-right">
+                        <div class="aui-btn btn-red" onclick="sell('{{mid}}');">确定</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+
+        var pageIndex = 1;
+        var pageSize = 10;
+
+        apiready = function () {
+            firstLoad();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+
+            api.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'widget://image/refresh.png',
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                $('#head_content').html('');
+                $('#list_content').html('');
+                pageIndex = 1;
+                firstLoad();
+                api.refreshHeaderLoadDone();
+            });
+        }
+
+        function firstLoad() {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                text: '',
+                modal: false
+            });
+            post(dburl.equity.u_ed, { values: {} }, function (d) {
+                var html_head = template('head_all', d.D);
+                $('#head_content').html(html_head);
+            })
+
+            post(dburl.equity.u_equitys, { values: { pageIndex: pageIndex, pageSize: pageSize } }, function (d) {
+                if (d.S) {
+                    var html_list = template('list_all', d);
+                    $('#list_content').append(html_list);
+                    api.hideProgress();
+                    pageIndex += 1;
+                }
+                else {
+                    api.hideProgress();
+                }
+            })
+        }
+
+        function load() {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.equity.u_equitys, { values: { pageIndex: pageIndex, pageSize: pageSize } }, function (d) {
+                if (d.S) {
+                    var html_list = template('list_all', d);
+                    $('#list_content').append(html_list);
+                    api.hideProgress();
+                    pageIndex += 1;
+                }
+                else {
+                    api.hideProgress();
+                }
+            })
+        }
+
+        function openSell(m, n, c) {
+            if ($('#' + m).length == 0) {
+                var data = { mid: m, ename: n, ecount: c };
+                var html = template('tmp_dia', data);
+                $('body').append(html);
+                document.getElementById(m).style.display = "block";
+            }
+            else {
+                document.getElementById(m).style.display = "block";
+            }
+        }
+
+        var sell = function (mid) {
+            var num = $('#' + mid + '_num').val();
+            var price = $('#' + mid + '_price').last().val();
+
+            if (num == null || num == '' || price == null || price == '') {
+                api.toast({
+                    msg: '请输入出售信息或您的输入有误..',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+
+            if (isNaN(num) && isNaN(price)) {
+                api.toast({
+                    msg: '您的输入有误..',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+
+            api.confirm({
+                title: '商加在线提示',
+                msg: '您将以' + price + '元/份出售' + num + '份此分红权.',
+                button: ['确定', '取消']
+            }, function (ret, err) {
+                if (ret.buttonIndex == 2) {
+                    api.showProgress({
+                        style: 'default',
+                        animationType: 'fade',
+                        title: '请稍候...',
+                        text: '',
+                        modal: true
+                    });
+                    post(dburl.market.sell_markets, { values: { id: mid, count: num, price: price } }, function (r) {
+                        if (r.S) {
+                            document.getElementById(mid).style.display = "none";
+                            api.toast({
+                                msg: '您的分红权已在交易市场上架!',
+                                duration: 3000,
+                                location: 'middle'
+                            });
+                        }
+                        else {
+                            api.toast({
+                                msg: r.M,
+                                duration: 3000,
+                                location: 'bottom'
+                            });
+                        }
+                        api.hideProgress();
+                    })
+                }
+                else { }
+            })
+        }
+
+        var closeModal = function (mid) {
+            document.getElementById(mid).style.display = "none";
+        }
+
+    </script>
+</body>
+</html>

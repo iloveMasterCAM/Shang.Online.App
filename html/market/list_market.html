@@ -1,0 +1,178 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>分红权市场</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/base_qh.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/profit_market_1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/extend_qh.css" />
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body class="profit-market-bd">
+    <header class="aui-bar aui-bar-nav" id="aui-header">
+        <span class="aui-pull-left aui-iconfont aui-icon-left" ></span>
+        <div class="aui-title" id="header-title">分红权市场</div>
+        <span class="aui-pull-right user-log" >
+            <img src="../../image/market/market1.png" />
+        </span>
+    </header>
+    <div class="market-img aui-text-center">
+        <img src="../../image/market/market2.png" />
+        <p class="title aui-text-right"><span id="oname"></span><br/><span class="detail">分红转让市场</span></p>
+    </div>
+    <div class="clearfloat market-nav">
+        <div onclick="changeMyImg('time');" class="time aui-col-xs-4 aui-text-left" style="padding-left:2%"><span>时间</span><p><img id="time" class="default" src="../../image/market/default.png" /></p>
+        </div>
+        <div onclick="changeMyImg('price');" class="price aui-col-xs-4 aui-text-center"><span>价格</span><p><img id="price" class="default" src="../../image/market/default.png" /></p>
+        </div>
+        <div onclick="changeMyImg('amount');" class="amount aui-col-xs-4 aui-text-right" style="padding-right:2%"><span>数量</span><p><img id="amount" class="desort" src="../../image/market/desort.png" /></p>
+        </div>
+    </div>
+    <ul class="aui-list-view" id="content">
+        <!--<li class="aui-list-view-cell">
+            <div class="aui-col-xs-6">
+                <div class="aui-col-xs-5"><p>19:00</p><p>04/20</p></div>
+                <div class="aui-col-xs-7"><p class="buy-money">￥1.00</p><p>单价</p></div>
+            </div>
+            <div class="aui-col-xs-6">
+                <div class="aui-col-xs-7"><p class="buy-amount">10000份</p><p>出售</p></div>
+                <div class="aui-col-xs-5 buy-btn"><button>买入</button></div>
+            </div>
+        </li>-->
+        
+    </ul>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each D as m i}}
+        <li class="aui-list-view-cell">
+            <div class="aui-col-xs-6">
+                <div class="aui-col-xs-5"><p>{{m.dtime}}</p><p>{{m.date}}</p></div>
+                <div class="aui-col-xs-7"><p class="buy-money">￥{{m.price}}</p><p>单价</p></div>
+            </div>
+            <div class="aui-col-xs-6">
+                <div class="aui-col-xs-7"><p class="buy-amount">{{m.num}}份</p><p>出售</p></div>
+                <div class="aui-col-xs-5 buy-btn"><button onclick="openWin('market-detail_market','detail_market.html','{{m.id}}')">买入</button></div>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript" src="../../script/base_qh.js"></script>
+    <script type="text/javascript">
+
+        var id = '';
+        var ot = 2;
+        var pageIndex = 1;
+        var pageSize = 10;
+
+        function changeMyImg(name){
+            var imgobj;
+             switch(name){
+                case "price":
+                  getElem("amount").className=getElem("time").className="default";
+                  imgobj = getElem("price");
+                  if (imgobj.className == 'desort') {
+                      ot = 0;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                  if (imgobj.className == 'sort') {
+                      ot = 1;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                  break
+                case "amount":
+                  getElem("price").className=getElem("time").className="default";
+                  imgobj = getElem("amount");
+                  if (imgobj.className == 'desort') {
+                      ot = 5;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                  if (imgobj.className == 'sort') {
+                      ot = 3;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                 break
+                case "time":
+                  getElem("price").className=getElem("amount").className="default";
+                  imgobj = getElem("time");
+                  if (imgobj.className == 'desort') {
+                      ot = 2;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                  if (imgobj.className == 'sort') {
+                      ot = 4;
+                      document.getElementById('content').html = '';
+                      load();
+                  }
+                  break
+                default:
+                  console.log("error");
+             }
+             getElem("price").src=getElem("amount").src=getElem("time").src="../../image/market/default.png";
+             switch(imgobj.className){
+                case "default":
+                  imgobj.className="desort";
+                  imgobj.src="../../image/market/desort.png";
+                  break
+                case "desort":
+                  imgobj.className="sort";
+                  imgobj.src="../../image/market/sort.png";
+                 break
+                case "sort":
+                  imgobj.className="desort";
+                  imgobj.src="../../image/market/desort.png";
+                  break
+                default:
+                  console.log("error");
+             }
+        }
+
+        apiready = function () {
+            id = api.pageParam.data;
+
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+        }
+
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.market.list_markets, { values: { id: id, pageIndex: pageIndex, pageSize: pageSize, ordertype: ot } }, function (r) {
+                var html = template('tmp', r);
+                $('#oname').html(r.M);
+                $('#content').append(html);
+                //tempFun();
+                api.hideProgress();
+                pageIndex += 1;
+            });
+        }
+
+    </script>
+</body>
+</html>

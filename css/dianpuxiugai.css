@@ -1,0 +1,68 @@
+
+.clearfix:after{
+    content: "";
+    clear: both;
+    display: block;
+}
+.shopList{
+    padding-left: 5%;
+    padding-top: 2.78%;
+    background-color: #fff;
+}
+.shopList li{
+    width: 50%;
+    padding-right: 5%;
+
+}
+.shopList li:after{
+    border: 0 solid;
+}
+.shopList .aui-waterfall-header{
+    position: relative;
+}
+.shopList .aui-waterfall-header p{
+    color: #FFF;
+    background: rgba(143,143,148,.6);
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    font-size: 12px;
+    width: 100%;
+    height: 43px;
+    overflow: hidden;
+    line-height: 1.5;
+}
+.shopList .aui-waterfall-footer p{
+    font-size: 12px;
+}
+.shopList.goodList{
+    background-color: transparent;
+    padding-left: 2.78%;;
+}
+.goodList .aui-waterfall-header p{
+    background-color: rgba(0,0,0,.4);
+}
+.goodList li{
+    padding-right: 2.86%;
+}
+.goodList .aui-waterfall-footer{
+    background-color: #FFF;
+    padding: 5px;
+}
+.goodList .aui-waterfall-footer .aui-iconfont{
+    padding: 4px;
+    border: 1px solid;
+    border-radius: 50%;
+    color: #ACACAC;
+}
+.goodList .aui-waterfall-footer .bottomInfo{
+    padding: 5px 0 0;
+}
+.goodList .aui-waterfall-footer .aui-col-xs-3{
+    border-left: 1px solid  transparent;
+    text-align: right;
+    margin: 4px 0;
+}
+.redcar{
+    display: none;
+}

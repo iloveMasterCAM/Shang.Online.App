@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>确认订单</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+    <script src="../../assets/js/amazeui.js"></script>
+    <script src="../../assets/js/amazeui.js"></script>
+    <style>
+        .aui-content-address {
+            background-color: #fff;
+            margin-bottom: 5px !important;
+            font-size: 12px;
+            padding: 10px;
+            min-height: 90px;
+        }
+
+        .aui-img-object {
+            border-radius: 0px !important;
+            border: 1px solid #f3f3f3;
+        }
+
+        .aui-user-view-cell:after {
+            border: 0px !important;
+        }
+
+        .aui-list-view, .aui-list-view-cell {
+            border: 0px !important;
+            margin-bottom: 5px;
+        }
+
+            .aui-list-view-cell::after {
+                border: 0px !important;
+            }
+
+            .aui-list-view::after {
+                border: 0px !important;
+            }
+
+        .aui-input-row::after {
+            border: 0px !important;
+        }
+
+        .aui-list-view-cell {
+            font-size: 12px;
+        }
+
+            .aui-list-view-cell span[class*="aui-icon"] {
+                color: #808080;
+            }
+
+        #equity-actions {
+            background-color: white !important;
+            border: solid #ccc 1px;
+            box-shadow: #808080 5px 0px 0px;
+        }
+
+            #equity-actions li[id] {
+                border-bottom: #f3f3f3 1px solid;
+            }
+
+            #equity-actions span {
+                margin-left: 10px;
+            }
+    </style>
+</head>
+<body>
+
+
+    <div id="content">
+
+    </div>
+
+
+
+    <div class="aui-form" style="font-size:12px;border:0px;">
+
+        <div class="aui-input-row" style="border:0px;">
+            <label class="aui-input-addon" style="font-size:12px;">备注</label>
+            <textarea id="memo" rows="2" cols="18" placeholder="备注颜色,尺寸,发货等信息,<=30字" style="border:0px;color:#808080"></textarea>
+        </div>
+    </div>
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+ 
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        <div class="aui-content-address" onclick="openWin('store-address', 'address.html', { fram: 'store-order_frm', win: 'store-order' })">
+            <div class="aui-col-xs-2 aui-text-center" style="font-size:16px;">
+                <div><span class="aui-icon-user aui-text-danger"></span></div>
+                <div><span class="aui-icon-map-marker aui-text-primary"></span></div>
+
+            </div>
+            <div class="aui-col-xs-10">
+                <div style="font-size:14px;padding-right:10px;height:25px;line-height:25px;">
+                    <span id="name">{{user.name}}</span>
+                    <span class="aui-pull-right" id="tel">{{user.phone}}</span>
+                </div>
+                <div>
+                    <div class="aui-ellipsis-2" id="address">{{user.address}}</div>
+
+                </div>
+                <div>
+                    <span style="color:#ff6a00;font-size:10px;">(点击可以修改/新增地址)</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="aui-content" style="background-color:#fff;font-size:12px;padding:10px;">
+            <div><span class="aui-icon-heartbeat aui-text-danger" style="font-size:14px;"></span> {{shop.name}}</div>
+            <ul class="aui-list-view" style="border:0px !important">
+
+                <li class="aui-list-view-cell aui-img" style="border:0px !important;">
+
+                    <img class="aui-img-object aui-pull-left" src="{{img}}">
+
+                    <div class="aui-img-body">
+                        <div class="aui-ellipsis-1">{{name}}</div>
+                        <div style="font-size:12px;color:#808080;height:25px;line-height:25px;">
+                            <span class="aui-icon-heart"></span> {{equitycount}}份
+                            <span class="aui-pull-right"> {{equity}}</span>
+                        </div>
+                        <div style="font-size:12px;color:#808080;height:25px;line-height:25px;">
+                            <span class="">分佣</span> {{sharemoney}}
+                            <span class="aui-pull-right"> {{organize.name}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="aui-list-view" style="margin-bottom:0px;">
+
+                <li class="aui-list-view-cell aui-img aui-counter-list" style="margin-bottom:0px;">
+                    <div class="aui-img-body">
+                        购买数量
+                        <div class="aui-counter-box">
+
+                            <div class="aui-pull-left aui-text-danger">¥ <span id="price">{{price}}</span>元</div>
+
+                            <div class="aui-counter aui-pull-right">
+                                <input id="number" class="aui-counter-input" onblur="changeNumber()" type="number" min="1" value="1" style="border:1px solid #f3f3f3;width:120px;height:30px;">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="aui-content">
+
+            <ul class="aui-list-view">
+
+                <li class="aui-list-view-cell" data-win="list_arrow">
+
+                    <a class="aui-arrow-right">
+
+                        抵用卷
+                        <span class="aui-badge aui-text-defaul" style="background-color:transparent">{{juan.count}}</span>
+                        <span class="aui-icon-angle-right aui-pull-right"></span>
+                    </a>
+
+                </li>
+            </ul>
+            <ul class="aui-list-view">
+
+
+                <li class="aui-list-view-cell" data-win="list_arrow">
+
+                    <a class="aui-arrow-right">
+
+                        积分
+                        <span class="aui-badge aui-text-defaul" style="background-color:transparent">{{jifen.count}}</span>
+                        <span class=" aui-icon-angle-right aui-pull-right"></span>
+                    </a>
+
+                </li>
+
+            </ul>
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell" data-win="list_arrow" onclick="showEquityList()">
+
+                    <a class="aui-arrow-right">
+                        分红权
+                        <span id="equity" class="aui-badge aui-text-default" style="background-color:transparent">使用分红权抵扣</span>
+                        <span class=" aui-icon-angle-right aui-pull-right"></span>
+                    </a>
+
+                </li>
+            </ul>
+        </div>
+        <div class="am-modal-actions" id="equity-actions">
+            <div class="am-modal-actions-group">
+                <ul class="am-list">
+                    <li class="am-modal-actions-header">选择分红权</li>
+                    {{each dis as d i}}
+                    <li onclick="showequity('{{d.id}}','{{d.name}}','{{d.money}}',{{d.count}})" id="{{d.id}}"><span>{{d.name}}</span><span>[{{d.count}}]份</span><span>[{{d.money}}]元</span></li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="am-modal-actions-group">
+                <button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+            </div>
+        </div>
+    </script>
+    <script>
+        //获取新增的收货地址
+        function changeaddress() {
+            var d = JSON.parse(localStorage["address"]);
+            $("#name").text(d.name);
+            $("#tel").text(d.tel);
+            $("#address").text(d.address);
+            closeWin("product-address");
+        }
+        var price = 0;
+        var product = {};
+        apiready = function () {
+            var data = api.pageParam.data;
+            
+       
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: true
+            });
+      
+            post(dburl.store.order, { values: { id: data.id } }, function (r) {
+                
+                if (r.S) {
+                  
+                    product = r.D;
+           
+                    $("#content").html(template("tmp", r.D));
+                 
+                }
+                else
+                    alert(r.M);
+                api.hideProgress();
+            })
+        }
+        var showEquityList = function () {
+            $("#equity-actions").modal();
+        }
+        var showequity = function (id, name, money, count) {
+            var $equity = $("#equity");
+            $equity.data("e-id", id);
+            $equity.data("e-c", count);
+            $equity.text(name + "[" + money + "元]");
+            $("#equity-actions").modal("close");
+            changePrice(price - money);
+        }
+        var changeNumber = function () {
+            var n = parseInt($("#number").val());
+
+            if (n < 1)
+            {
+                $("#number").val("1");
+                return;
+            }
+            price=n * product.price;
+            changePrice(price);
+        }
+        var changePrice=function(money){
+            $("#price").text(money);
+            api.execScript({
+                name: 'store-order',
+
+                script: "changeMoney('" + money + "')"
+
+            });
+        }
+        var CreateOrder = function () {
+          
+            var equityid = $("#equity").data("e-id");
+            if (!equityid)
+                equityid = "";
+            var equitycount = $("#equity").data("e-c")
+            if (!equitycount)
+                equitycount = 0;
+          
+            var data = {
+                id: product.id,
+                number: parseInt($("#number").val()),
+                equityid: equityid,
+                equitycount: equitycount,
+                memo: $("#memo").val(),
+                name: $("#name").text(),
+                phone: $("#tel").text(),
+                address: $("#address").text()
+            };
+          
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '订单生成中..',
+                text: '',
+                modal: true
+            });
+           
+            post(dburl.order.createproduct, { values: data }, function (r) {
+                if (r.S) {
+                   var orderNo = r.D;
+                   openWin('pay-index', '../pay/index.html', { orderno: orderNo })
+                }
+                else
+                    alert(r.M);
+                api.hideProgress();
+            })
+        }
+    </script>
+
+</body>
+</html>

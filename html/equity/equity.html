@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>分红</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/bonus.css">
+    <link rel="stylesheet" href="../../css/aui_iconfont.ttf">
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+   <!-- <script src="../../script/aui-waterfall.js"></script>-->
+    <script src="../../script/bonus.js"></script>
+</head>
+<body>
+    <div style="position:fixed;z-index:8;width:100%" id="head">
+        <!--分红权市场-->
+        <header class="aui-bar aui-bar-nav" style="background-color:#f34b4b;color:white">
+            <a class="aui-pull-left  " ontouchend="closeWin()">
+                <span class="aui-iconfont aui-icon-left"></span>
+            </a>
+
+            <div class="aui-title aui-pull-left">分红权市场</div>
+            <a class="aui-pull-right" style="font-size:18px;">
+                <span class="fa fa-search "></span>
+            </a>
+        </header>
+    </div>
+        <!--图片链接-->
+        <div onclick="openWin('rank','rank.html')" >
+            <a><img id="img" class="topimg" src="../../image/equity/top_10.png" /></a>
+        </div>
+        <!--导航信息-->
+        <div class="aui-bar aui-bar-nav nav"  id="tab_menu">
+            <ul class="aui-col-xs-12">
+                    <!-- 全部商铺-->
+                    <li class="aui-col-xs-4 border">
+                        <div class="select " id="shop">
+                            <span>全部商铺</span>
+                            <img src="../../image/equity/bottom.png" style="width: 12px;height: 6px"/>
+                        </div>
+                    </li>
+                    <!-- 全国 -->
+                    <li class="aui-col-xs-4 border">
+                        <div class="select" id="all">
+                            <span>全国</span>
+                            <img src="../../image/equity/bottom.png" style="width: 12px;height: 6px;"/>
+                        </div>
+                    </li>
+                    <!-- 排序 -->
+                    <li class="aui-col-xs-4">
+                        <div class="select" id="sort">
+                            <span>排序</span>
+                            <img src="../../image/equity/bottom.png" style="width: 12px;height: 6px"/>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+
+    <!-- 选择商铺弹框 -->
+    <div class="aui-dialog" id="shopselect">
+        <div class="aui-dialog-header">选择商铺</div>
+        <div class="aui-dialog-body aui-text-left">
+
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" id="cancelshop">取消</div>
+        </div>
+    </div>
+    <!-- 选择全国弹框 -->
+    <div class="aui-dialog" id="allselect">
+        <div class="aui-dialog-header">全国</div>
+        <div class="aui-dialog-body aui-text-left">
+
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" id="cancelall">取消</div>
+        </div>
+    </div>
+    <!-- 选择排序弹框 -->
+    <div class="aui-dialog" id="sortselect">
+        <div class="aui-dialog-header">排序</div>
+        <div class="aui-dialog-body aui-text-left">
+
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" id="cancelsort">取消</div>
+        </div>
+    </div>
+    <!--遮罩层-->
+    <div id="choseMark" class="aui-mark"></div>
+    <!--分红内容-->
+    <div class="aui-content" id="content">
+        <ul class="aui-waterfall aui-col-xs-12" id="aui-waterfall">
+
+        </ul>
+    </div>
+    <!--用户-->
+    <div onclick="openWin('mine-myequity','../mine/myequity_bar.html')" style="z-index:9">
+        <img class="myimg" src="../../image/equity/myfhq.png" />
+    </div>
+    
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each D as m i}}
+        <li class="cont aui-col-xs-6" onclick="openWin('market-list_market','../market/list_market.html','{{m.id}}')">
+            <div class="aui-user-view-cell aui-img aui-col-xs-12 aui-waterfall-header header">
+                <img class="aui-col-xs-2 conimg" src="{{m.logo}}" />
+                <p class="context aui-ellipsis-1 ">{{m.name}}</p>
+            </div>
+            <div class="aui-waterfall-body">
+                <div>
+                    <div class="aui-col-xs-12 textcol" style="float: left;"><span>市场售价:</span></div>
+                    <div class="pice text">
+                        <span class="num">￥</span><span>{{m.minprice}}</span><br />
+                        <span class="textcol">至</span><br />
+                        <span class="num">￥</span><span>{{m.maxprice}}</span>
+                    </div>
+                    <div class="aui-col-xs-12 sums">
+                        <span>总:{{m.total}}份</span>
+                        <span>持:{{m.selling}}份</span>
+                    </div>
+                    <div>
+                        <img src="../../image/equity/right.png" />
+                        <span class="textcol">分红池:{{m.pool}}元</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+
+    <script src="../../script/myDialog.js"></script>
+    <script type="text/javascript">
+        /*商铺*/
+        document.getElementById("shop").onclick = function (argument) {
+            show(shopselect);
+            show(choseMark);
+            hide(allselect);
+            hide(sortselect);
+        };
+        document.getElementById("cancelshop").onclick = function (argument) {
+            hide(shopselect);
+            hide(choseMark);
+        };
+        /*全国 */
+        document.getElementById("all").onclick = function (argument) {
+            show(allselect);
+            show(choseMark);
+            hide(sortselect);
+            hide(shopselect);
+        };
+        document.getElementById("cancelall").onclick = function (argument) {
+            hide(allselect);
+            hide(choseMark);
+        };
+        /*排序 */
+        document.getElementById("sort").onclick = function (argument) {
+            show(sortselect);
+            show(choseMark);
+            hide(shopselect);
+            hide(allselect);
+        };
+        document.getElementById("cancelsort").onclick = function (argument) {
+            hide(sortselect);
+            hide(choseMark);
+        };
+        /*瀑布流 */
+       /* $aui.waterfall($api.byId("aui-waterfall"), {
+            col: 2,//列数
+            padding: 6,//容器内边距
+            space: 6//列间距
+        });*/
+        //$('#content').css({ "margin-top": $('#head').outerHeight(), "position": "absolute" });
+        var pageIndex = 1;
+        apiready = function () {
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+
+            load();
+            //api.setRefreshHeaderInfo({
+            //    visible: true,
+            //    loadingImg: 'widget://image/refresh.png',
+            //    bgColor: '#ccc',
+            //    textColor: '#fff',
+            //    textDown: '下拉刷新...',
+            //    textUp: '松开刷新...',
+            //    showTime: true
+            //}, function (ret, err) {
+            //    $("#content").html("");
+            //    pageIndex = 1;
+            //    load();
+            //    api.refreshHeaderLoadDone();
+            //});
+        };
+
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+            post(dburl.equity.show_equities, { values: { pageIndex: pageIndex } }, function (d) {
+                var html = template('tmp', d);
+                $('#aui-waterfall').append(html);
+                //$('#content').css({ "margin-top": $('#head').outerHeight(), "position": "absolute" });
+                pageIndex += 1;
+                api.hideProgress();
+            })
+        }
+    </script>
+</body>
+</html>

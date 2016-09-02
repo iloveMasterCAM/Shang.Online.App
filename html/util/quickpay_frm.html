@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>快捷支付银行卡选择</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+    <style>
+         .addbtn {
+            color:#808080;
+            height:25px;line-height:25px;font-size:16px;padding-left:15px;
+        }
+            .addbtn span:last-child {
+                margin-left:10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="aui-form">
+
+        
+
+    </div>
+    <div class="addbtn" onclick="openWin('bank-cardidentify', '../bank/cardidentify.html', '')">
+        <span class="aui-icon-plus"> </span><span style="font-size:14px !important;"> 添加银行卡</span>
+    </div>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each D as m i}}
+        <div class="aui-input-row" ontouchstart="chechcard('{{m.id}}')">
+
+            <label class="aui-input-addon">[{{m.name}}] {{m.carno}}</label>
+
+            <input id="{{m.id}}" class="aui-pull-right aui-radio" type="radio" name="{{m.id}}">
+
+        </div>
+        {{/each}}
+    </script>
+    <script>
+        apiready = function () {
+            load();
+            api.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'widget://image/refresh.png',
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                $("#aui-waterfall").html("");
+                pageIndex = 1;
+                load();
+                api.refreshHeaderLoadDone();
+            });
+        }
+       var load = function () {
+           api.showProgress({
+               style: 'default',
+               animationType: 'fade',
+               title: '数据提交中...',
+               text: '',
+               modal: true
+           });
+        
+           post(dburl.money.list_memberbanks, { values: { state: 2 } }, function (r) {
+               if (r.S) {
+             
+                   $(".aui-form").html(template("tmp",r));
+               } else {
+                   alert(r.M);
+               }
+               api.hideProgress();
+           })
+       }
+       var chechcard = function (id) {
+           api.sendEvent({
+               name: "quickpay_cared_seleced_success",
+               extra: id
+           });
+           closeWin('quickpay');
+       }
+    </script>
+</body>
+</html>

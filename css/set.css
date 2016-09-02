@@ -1,0 +1,185 @@
+
+/*设置页*/
+.setList{
+	margin: 6.94% 0 7%;
+}
+.aui-list-view-cell {
+	padding: 13.5px 5%;
+	font-size: 14px;
+	color: #575757;
+}
+.aui-list-view-cell .aui-pull-right{
+	color: #888;
+}
+.setList .aui-list-view:after,.msgList .aui-list-view:after{
+	border-top: 0px solid;
+}
+.setList .aui-list-view-cell:last-child:after,.msgList .aui-list-view-cell:last-child:after{
+	border-bottom: 0px;
+}
+/*账户管理页*/
+.msgList {
+	margin: 4.45% 0;
+}
+.msgList .aui-img-object{
+	width: 17.39%;
+	line-height: 0;
+}
+.msgList .aui-pull-right{
+	margin-right: 6.5%;
+}
+.msgList .aui-img-body{
+	line-height: 59px;
+} 
+.msgList .haveImg{
+	padding: 9.5px 5%;
+}
+.msgList .dimmensionCodeBox{
+	width:7.22%; 
+	line-height: 0;
+}
+/*我的资产列表*/
+.myMoney.whiteBg{
+	padding-left: 0px;
+}
+.myMoney{
+	margin-top: 6.1%;
+}
+.myMoney h1{
+	line-height: 217.5%;
+	font-size: 90px;
+	color: #ff0000;
+	text-align: center;
+}
+.myMoney p{
+	margin-bottom: 8.4%;
+	text-align: center;
+}
+
+.myMoney .aui-img-object{
+	width: 10.39%;
+	height: 35px;
+	line-height: 35px;
+}
+.myMoney span,.myMoney .aui-list-view-cell .aui-pull-right{
+	height: 35px;
+	line-height: 35px;
+	color: #ff0000;
+}
+.myMoney .aui-list-view-cell{
+	padding: 7.5px 5%;
+}
+/*余额界面*/
+body.whiteBg{
+	padding-left: 0px;
+}
+.mybalance.whiteBg{
+	padding-left: 0px;
+}
+.mybalance img{
+	width:31.53%;
+	margin-top: 14.48%;
+}
+.textCenter{
+	text-align: center;
+}
+.littleTit{
+	background-color: #e5e5e5;
+
+	font-size: 10px;
+	color: #f85616;
+	line-height: 16.5px;
+}
+.mybalance p{
+	font-size: 17px;
+	margin: 4.43% 0px 4.1%;
+	line-height: 1;
+	color: #333;
+}
+.mybalance span{
+	padding-left: 15px;
+	width: 130px;
+	background-position:0;
+	background-size: 16%;
+	display: inline-block;
+	font-size:33px;
+	line-height: 1;
+	color: #3d3d3d;
+	background-image: url("../image/mine/yen.png");
+	background-repeat: no-repeat;
+}
+.mybalance .aui-btn-success{
+	width: 90%;
+	padding: 10.5px 0;
+	margin: 12% auto 3.76%;
+	background-color: #06c62a;
+	border: 1px solid #06c62a;
+	border-radius: 4px;
+}
+.mybalance .aui-btn-info{
+	background-color: #2a9bfc;
+	border: 1px solid #2a9bfc;
+	width: 90%;
+	margin: 0 auto;
+	border-radius: 4px;
+	padding: 10.5px 0;
+}
+/*店铺入驻页*/
+.shopMsg{
+	margin-bottom: 0;
+}
+.logoRow{
+	padding-left: 4.89%;
+	margin-top: 3%;
+	margin-bottom: 2%;
+}
+.shopMsg .aui-list-view-cell{
+	padding: 0 2.31%;
+}
+.shopMsg >.aui-list-view:first-child{
+	margin-bottom: 0;
+}
+.shopMsg .aui-list-view .aui-img-object{
+	max-width: 15px;
+	margin-right: 0;
+	height: 48px;
+	line-height: 53px;
+}
+.shopMsg .aui-list-view .aui-input-row{
+	padding: 3.5px 0;
+	width: 95%;
+}
+.shopMsg .aui-list-view .aui-input-row input{
+	font-size: 12px;
+	padding-left: 0;
+}
+.shopMsg .aui-list-view .aui-input-row .aui-input-addon{
+	width: 25%;
+	padding-left: 0;
+	padding-right: 0;
+}
+.shopLogo{
+	width: 15%;
+	display: block;
+	margin-left: 28%;
+}
+.addBg{
+	padding: 4% 3.91%;
+}
+.addBg img{
+	width: 23.3%;
+	display: block;
+}
+textarea{
+	margin-bottom: 0;
+}
+.myBtn{
+	padding: 10.5px 0;
+	width: 90%;
+	margin: 6.65% auto 5%;
+	background-color: #30a1f9;
+	border: 1px solid #30a1f9;
+}
+p.info{
+	padding-left: 5%;
+}

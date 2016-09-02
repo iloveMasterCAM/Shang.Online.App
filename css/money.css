@@ -1,0 +1,654 @@
+header .lttleFont.aui-btn{
+	font-size: 8px;
+}
+.aui-btn-info{
+	background-color: #22a6cc;
+	border: 1px solid #22a6cc;
+}
+.aui-btn-success{
+	background-color: #3dbf79;
+	border: 1px solid #3dbf79;
+}
+.aui-btn-danger{
+	background-color: #fe5555;
+	border: 1px solid #fe5555;
+}
+.info{
+	font-size: 12px;
+	margin-top: 8.96%;
+	padding-left: 9.1%;
+	margin-bottom: 7.23%;
+}
+.inputZone{
+	padding: 3.5px 0;
+	background: #fff;
+	padding-left: 9.1%;
+}
+.inputZone .aui-input-addon{
+	padding-left: 0px;
+}
+.btnGroup{
+	margin-top: 11.63%;
+	padding: 0 5%;
+}
+.btnGroup .aui-btn-block{
+	border-radius: 7px;
+	margin-bottom: 5.62%;
+	padding: 10.5px 0;
+}
+.bottomInfo{
+	font-size: 12px;
+	text-align: center;
+	margin-top: 20%;
+}
+
+/*银行卡充值*/
+.topper{
+	padding-top: 6px;
+	font-size: 18px;
+	line-height: 20px;
+	float: left;
+	padding-left: 9.4%;
+}
+.topper:after{
+	content: "商加安全支付";
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+	left: 10%;
+	font-size: 12px;
+	padding-left: 9.4%;
+	color: #F1EEEE;
+}
+.bankList{
+	margin: 5.78% 0;
+	padding: 0 3.5% 0 5%;
+}
+.bankList span{
+	display: inline-block;
+	font-size: 14px;
+	
+	
+}
+.bankList span.aui-iconfont{
+	min-height: 50px;
+	line-height: 77px;
+	width: 15%;
+	text-align: right;
+}
+.bankList span img{
+	width: 35%;
+}
+span.littleFont{
+	color: #929394;
+	font-size: 12px;
+	padding-left: 10%;
+	margin-top: 15px;
+	margin-bottom: 12px;
+
+}
+.bankList span.aui-pull-left{
+	font-size: 16px;
+}
+.bankList span.aui-pull-left,.bankList span.aui-pull-right{
+	min-height: 50px;
+	line-height: 69px;
+}
+.bankList .aui-text-info{
+	width: 100%;
+	padding-left: 10%;
+	margin-top: 12px;
+}
+.aui-btn{
+	width: 90%;
+	margin: 0 auto;
+}
+#nextBtn{
+	padding: 10.5px 0;
+}
+/*选择银行卡*/
+
+#choseBank{
+	display: none;
+	width: 78.06%;
+	top: 52%;
+}
+#choseBankMark{
+	display: none;
+}
+#choseBank .aui-dialog-header{
+	padding-top: 19px;
+	text-align: left;
+	font-size: 18px;
+	padding-left: 9.81%;
+}
+#choseBank .aui-dialog-body{
+	padding-left: 37px;
+	color: #5e5e5e;
+	padding-bottom: 10px;
+}
+#choseBank .aui-input-row .aui-input-addon{
+	width: 100%;
+	text-align: left;
+}
+#choseBank .radioItem{
+	position: relative;
+	margin: 20px 0;
+	display: inline-block;
+	font-size: 14px;
+}
+#choseBank .radioItem input{
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+}
+#choseBank .radioItem input:before{
+	content: "";
+	width: 13px;
+	height: 13px;
+	border-radius: 50%;
+	border: 1px solid #3dbf79;
+	position: absolute;
+	bottom: 3px;
+	left: 0;
+	background-color: #fff;
+}
+#choseBank .radioItem input:checked:after{
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	position: absolute;
+	left: 3px;
+	bottom: 6px;
+	background-color: #3dbf79;
+}
+#choseBank .aui-dialog-btn{
+	padding-top: 0;
+	padding-right: 40px;
+	text-align: right;
+}
+#choseBank .aui-dialog-btn:after{
+	border-top: 0px solid;
+}
+
+#topUp .aui-btn{
+	width: auto;
+}
+#choseBank .aui-dialog-body .firstItem{
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+#choseBank .aui-dialog-body :not(:first-child) {
+        margin-top: 0px;
+    }
+#choseBank .aui-dialog-footer{
+	padding-bottom: 10px;
+}
+/*余额不足弹框*/
+#noBalance{
+	border-radius: 7px;
+	display: none;
+	top: 50%;
+	width: 78.06%;
+}
+#noBalance .aui-dialog-header{
+	font-size: 18px;
+	padding-top: 8.16%;
+	line-height: 1;
+}
+#noBalance .aui-dialog-body{
+	letter-spacing: 2px;
+	padding: 9.22% 6% 8.22%;
+	color: #000;
+	font-size: 14px;
+}
+#noBalance .aui-dialog-footer{
+	display: inline-block;
+	width: 100%;
+	padding-right: 15px;
+	text-align: right;
+}
+#noBalance .aui-dialog-btn{
+	display: inline-block;
+	font-size: 14px;
+	padding: 15px 10px;
+	padding-bottom: 20px;
+}
+#noBalance .aui-dialog-btn:after{
+	border-top: 0px solid;
+	border-left: 0px solid;
+}
+/*输入支付密码弹框*/
+#payDialog {
+	display: none;
+	top: 22%;
+}
+#payDialog .aui-dialog-header{
+	padding-top: 5px;
+	border-bottom: 1px solid #e71419;
+}
+#payDialog .aui-dialog-header img{
+	width: 10%;
+}
+#payDialog .aui-dialog-header .aui-iconfont{
+	line-height: 40px;
+	color: #a19e9e;
+}
+#payDialog .aui-dialog-body p{
+	font-size: 18px;
+	color: #505050;
+}
+
+#payDialog p.payMoney{
+	text-align: center;
+	font-size: 22px;
+	color: #010101;      
+	margin-top: 10px; 
+}
+
+#payDialog .aui-dialog-footer,.inputGroup{
+	width: 91.5%;
+	margin: 0 auto;
+	display: flex;
+}
+#payDialog .aui-dialog-footer input,.inputGroup input{
+	width: 20%;
+	text-align: center;
+	font-size: 40px;
+	padding: 0px;
+	float: left;
+	border-radius: 0px;
+	border-right: 0px solid;
+	border-left: 1px solid #f5f5f5;
+	margin-bottom: 12.5px;
+}
+#payDialog .aui-dialog-footer input:first-child,.inputGroup input:first-child{
+	border-left: 1px solid #c3c3c3;
+}
+#payDialog .aui-dialog-footer input:last-child,.inputGroup input:last-child{
+	border-right: 1px solid #c3c3c3;
+}
+
+#payinsert,.payinsert{
+	display: none;
+	width: 100%;
+	height: auto;
+	top: auto;
+	position: fixed;
+	bottom: 0px;
+	left: 0;
+	transform: none;
+}
+#payinsert p img,.payinsert p img{
+	width: 10%;
+}
+#payinsert .aui-content,.payinsert .aui-content{
+	margin-bottom: 0;
+}
+#payinsert .deleteBtn img,.payinsert .deleteBtn img{
+	width: 35%;
+}
+#payinsert .greyBg,.payinsert .greyBg{
+	background-color: #e0e0e0;
+}
+#payinsert .aui-grid-nine li p,.payinsert .aui-grid-nine li{
+	font-size: 18px;
+	font-weight: bold;
+	font-family: "宋体";
+	color: #2c2c2c;
+}
+#payinsert .aui-grid-nine li,.payinsert .aui-grid-nine li{
+	height: 64px;
+}
+.payinsert{
+	display: block;
+}
+/*银行卡列表页*/
+.blackBg{
+	background-color: #282828 !important;	
+}
+.blackBg header{
+	border-bottom: 1px solid #000;
+}
+#cardListBox .bankList{
+	padding-left: 0;
+	margin: 3.76% 0;
+	border-radius: 3px;
+}
+#cardListBox .bankName{
+	width: 24.31%;
+	text-align: center;
+	line-height: 105.106px;
+	font-weight: bold;
+}
+#cardListBox {
+	padding: 0 10px;
+	border-radius: 3px;
+	margin-bottom: 0;
+}
+#cardListBox .aui-list-view{
+	background-color: #282828;
+	margin-bottom: 0;
+}
+#cardListBox .aui-list-view:after{
+	border-top: 0px solid;
+}
+#cardListBox .aui-list-view .aui-list-view-cell:after{
+	border-bottom: 0px solid;
+}
+#cardListBox .chinaBank{
+	background-color: #cb4747;
+}
+#cardListBox .farmBank{
+	background-color: #2dabaa;
+}
+#cardListBox .bankName span{
+	width: 50px;
+	height: 50px;
+	font-size: 20px;
+	text-align: center;
+	line-height: 50px;
+	background-color: #d5eeee;
+	border-radius: 50%;
+}
+#cardListBox p{
+	font-size: 20px;
+	color: #dff2f3;
+	line-height: 1;
+	margin-top: 10.1%;
+}
+#cardListBox .cardKind{
+	padding-left: 15px;
+	display: inline;
+	font-size: 10px;
+	color: #b3c8c7;
+	vertical-align: super;
+}
+#cardListBox .cardNumber{
+	color: #dff2f3;
+	font-size: 18px;
+	margin-top: 11%;
+	line-height: 1;
+}
+.bottomBoder.aui-btn{
+	color: #a2a2a2;
+	border: 0px solid;
+	border-bottom: 1px solid #888;
+	border-radius: 0px;
+	padding-bottom: 7px;
+}
+#cardListBox .aui-list-view>li:last-child{
+	margin-bottom: 0px;
+}
+footer p{
+	width: 100%;
+	text-align: center;
+	position: absolute;
+	bottom: 4.07%;
+	left: 0;
+	font-size: 12px;
+	color: #066273;
+}
+/*余额提现界面*/
+.withdrawBox{
+	border-radius: 7px;
+	width: 90%;
+	margin: 4.19% auto 5.35%;
+	padding: 5% 4.45% 5% 8.33%;
+	font-size: 14px;
+}
+.withdrawBox header{
+	line-height: 1;
+	margin-bottom: 15.7%;
+}
+.withdrawBox header label{
+	width: 28.42%;
+}
+.withdrawBox header .bankName{
+	width: 67.3%;
+	color: #3f7fa3;
+}
+.withdrawBox header .bottomIcon{
+	width: 4.28%;
+	padding-top: 5px;
+}
+.withdrawBox header .bottomIcon img{
+	display: block;
+}
+.withdrawBox input{
+	border: 0px solid;
+	border-bottom: 1px solid #d2d2d2;
+	border-radius: 0px;
+	background: url("../image/mine/yen.png") no-repeat left;
+	background-size: 4%;
+	font-size: 14px;
+}
+.withdrawBox p{
+	line-height: 1;
+	font-size: 12px;
+	color: #575757;
+}
+.withdrawBox .aui-text-info{
+	color: #3f7fa3 !important;
+}
+.withdrawBox .footerInfo{
+	text-align: center;
+	margin-top: 15.54%;
+	font-size: 10px; 
+	color: #888;
+}
+.myBtn{
+	background-color: #30a1f9;
+	border: 1px solid #30a1f9;
+	padding: 10.5px 0;
+}
+/*交易成功界面*/
+#paySuccess .topper{
+	padding-left: 0;
+	float: none;
+	vertical-align: super;
+}
+#paySuccess .topper:after{
+	padding-left: 0;
+	left: 40%;
+}
+.resultInfo{
+	font-size: 22px;
+	text-align: center;
+	width: 100%;
+	padding: 6px 0;
+	background-color: #eee;
+	border-bottom: 1px solid #929292;
+}
+.resultInfo .aui-iconfont{
+	font-size: 33px;
+	color: #47b9f4 !important;
+	line-height: 1;
+}
+.shopName{
+	text-align: center;
+	padding: 12.14% 0;
+	line-height: 1;
+}
+.payDetail,.payDetail .aui-badge{
+	font-size: 14px;
+	background-color: transparent;
+}
+.payDetail,.payDetail .aui-badge li{
+	padding: 1px 0;
+}
+.payDetail .aui-list-view-cell{
+	padding: 4.5px 15px;
+}
+.payDetail .aui-list-view-cell:first-child{
+	min-height: 40px;
+	line-height: 40px;
+	padding: 0px 15px;
+}
+.payDetail .aui-list-view-cell:after{
+	border-bottom: 0px;
+}
+.payDetail.aui-list-view:after{
+	border-top: 0px;
+}
+.sureBtn{
+	padding: 10.5px 0;
+	margin-top: 10.25%;
+	background-color: #30a1f9;
+	border: 1px solid #30a1f9;
+}
+/*提现详情页*/
+#withdrawHeader{
+	padding-left: 5%;
+}
+#withdrawHeader .topper{
+	padding-left: 0;
+	float: none;
+	vertical-align: super;
+}
+#withdrawHeader .topper:after{
+	left: -2%;
+}
+#withdraw{
+	background-color: transparent;
+	border-bottom: 0px solid;
+	padding-top: 7.23%;
+	padding-bottom: 13.01%;
+	
+}
+#withdraw .aui-iconfont{
+	font-size: 500%;
+}
+#withdraw p{
+	color: #000;
+	font-size: 18px;
+	line-height: 1;
+	padding-top: 11.79%;
+}
+#withdrawList .aui-badge{
+	font-size: 14px;
+	background-color: transparent;
+}
+#withdrawList .aui-list-view:after{
+	border-bottom: 1px solid #c8c7cc;
+}
+#withdrawList .aui-list-view-cell:after{
+	border-bottom: 0px solid;
+}
+#withdrawList .aui-list-view-cell a{
+	font-size: 14px;
+	line-height: 1;
+	padding-left: 30px;
+	padding-right: 20px;
+}
+#withdrawList .aui-list-view-cell:first-child a{
+	padding-top: 23px;
+	padding-bottom: 15.5px;
+}
+#withdrawList .aui-list-view-cell:last-child a{
+	padding-top: 15.5px;
+	padding-bottom: 23px;
+}
+#withdrawList .aui-list-view-cell .yuan span{
+	padding-left: 15px;
+	background-image: url("../image/mine/yen.png");
+	background-repeat: no-repeat;
+	background-size: 15.9%;
+	background-position: 1% 53%;
+}
+.letterSpacing{
+	letter-spacing: 8px;
+}
+/*填写银行卡信息*/
+.writeMsgZone{
+	padding-top: 8.89%;
+}
+.writeMsgZone .info:first-child{
+	padding-top: 0px;
+	padding-bottom: 3.6%;
+}
+.writeMsgZone p,.writeMsgZone .aui-input-row{
+	padding-left: 5%;
+	font-size: 14px;
+}
+.writeMsgZone .info{
+	padding: 2.65% 5%;
+	margin: 0;
+}
+.writeMsgZone .aui-input{
+	padding: 10px 15px;
+}
+.writeMsgZone .aui-input.aui-text-info{
+	text-indent: 15%;
+}
+.littleFont{
+	font-size: 10px;
+	text-align: center;
+	line-height: 1;
+	margin-top: 7px;
+}
+.agree{
+	font-size: 12px;
+}
+.agree.aui-input-row:after{
+	border-bottom: 0px solid;
+}
+.agree .aui-checkbox{
+	width: 16px;
+	height: 16px;
+	margin: 12px 17px;
+	margin-right: 10px;
+}
+.agree .aui-checkbox:checked:after, .aui-checkbox.aui-checked:after,.aui-checkbox:checked:before,.agree .aui-checkbox.aui-checked:before{
+	font-size: 10px;
+	left: 1px;
+	top: -2px;
+}
+#nextBtn.sureBtn{
+	margin-top: 6.5%;
+}
+
+/*支付部分*/
+.payZone p{
+	padding-left: 5%;
+	margin-top: 9%;
+	margin-bottom: 5.5%;
+}
+p.littleMargin{
+	margin-top: 3.75%;
+}
+.defaultBar .aui-btn{
+	width: 100%;
+}
+.payZone .aui-btn{
+	width: 90%;
+	color: #b8b4b4;
+	margin: 7.49% auto 0;
+	padding: 10.5px 0;
+	background-color: #e3e3e3;
+	border: 1px solid #e3e3e3; 
+}
+.payZone .inputZone{
+	padding-left: 5%;
+	margin-bottom: 4.34%;
+}
+.payZone .aui-input{
+	padding: 10px 15px;
+}
+.payZone .aui-input.name{
+	text-indent: 15%;
+}
+#defaultBtn.aui-btn{
+	background-color: #30a1f9;
+	border: 1px solid #30a1f9; 
+	color: #fff;
+}
+.payZone .aui-input-row{
+    padding: 3.5px 5%;
+    width: 100%;
+}
+.payZone span.aui-input-addon {
+    width: 24.8%;
+    text-align: left;
+}

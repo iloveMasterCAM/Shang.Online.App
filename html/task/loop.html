@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>
+        任务逻辑循环
+    </title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <script>
+    /********
+    该页面用于处理所有消息循环
+    消息分类:
+    apicloud推送消息
+    rongyun消息
+
+    *********/
+    apiready = function () {
+        //隐藏本页面
+        api.setFrameAttr({
+            name: 'taskloop',
+            hidden: true,
+        });
+        //页面打开后开始任务消息处理
+        try {
+            envent_listening();
+        } catch (e) {
+
+        }
+
+    }
+        //所有事件
+    var envent_listening = function () {
+        //注册成功
+        api.addEventListener({
+            name: 'reg_success'
+        }, function (ret, err) {
+            var data = ret.value;//{id,name}
+            reg_success(data);
+        });
+        //购买分红权
+        api.addEventListener({
+            name: 'pay_order_success'
+        }, function (ret, err) {
+            var data = ret.value;//{id,name}
+            pay_equity_success(data);
+        });
+        //购买商品
+        api.addEventListener({
+            name: 'pay_shop_success'
+        }, function (ret, err) {
+            var data = ret.value;//{id,name}
+            //pay_equity_success(data);
+        });
+        //签到成功
+        api.addEventListener({
+            name: 'sign_success'
+        }, function (ret, err) {
+            var data = ret.value;//{id,name}
+            sign_success(data);
+        });
+        //注册成功
+        api.addEventListener({
+            name: 'reg_success'
+        }, function (ret, err) {
+            var data = ret.value;//{id,name}
+            reg_success(data);
+        });
+        //网页授权
+        api.addEventListener({
+            name: 'get_token'
+        }, function (ret, err) {
+            api.sendEvent({ name: "send_token",extra:localStorage["token"] });
+        });
+        //充值送积分
+        api.addEventListener({
+            name: 'pay_recharge_success'
+        }, function (ret, err) {
+            pay_recharge_success();
+        });
+
+        //绑卡送红包
+        api.addEventListener({ name: "add_bank_success" }, function (ret, err) {
+            add_bank_success();
+        });
+    }
+        //打开引导页
+        //d :{type:app/web,d:{n:页面名称,t:标题,c:内容}传递的数据}
+    var openGuideFrame = function (d) {
+        api.openWin({
+            name: 'guide',
+            pageParam:d,
+            url: "widget://html/guide/index.html",
+            rect: {
+                x: 0,
+                y: 0,
+                w: "auto",
+                h: "auto"
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)'
+        });
+    }
+        ///用户注册成功
+    var reg_success = function (d) {
+        openGuideFrame(
+            {
+                rurl: "widget://html/market/index.html",
+                type: "app",
+                d: {
+                    n: "恭喜注册成功!",
+                    t: "恭喜注册成功!",
+                    c: "您已获得分红卷!马上收购分红权!"
+                }
+            });
+    }
+        //购买分红权成功
+    var pay_equity_success = function (d) {
+        //判断是不是第一次购买分红权
+        post(dburl.task.isoneequity, {}, function () {
+            //第一次购买则进入任务页面
+            if (r.S) {
+                openGuideFrame(
+                            {
+                                rurl: "widget://html/task/index.html",
+                                type: "app",
+                                d: {
+                                    n: "分红权购买成功!",
+                                    t: "分红权购买成功!",
+                                    c: "分红权可以参与赚钱活动,还可以享受分红哦,点击开始赚钱吧!"
+                                }
+                            });
+            }
+        })
+        
+    }
+        //签到成功
+    var sign_success = function () {
+        openGuideFrame(
+           {
+               rurl: "widget://html/task/index.html",
+               type: "app",
+               d: {
+                   n: "task-index",
+                   t: "签到成功!",
+                   c: "您已获得积分,可以参加赚钱活动啦!"
+               }
+           });
+    }
+        //充值成功
+    var pay_recharge_success = function () {
+        post(dburl.task.recharge, {}, function (r) {
+            if (!r.S)
+                return;
+            openGuideFrame(
+           {
+               rurl: "widget://html/task/index.html",
+               type: "app",
+               d: {
+                   n: "task-index",
+                   t: "充值成功!",
+                   c: "您已获得积分,可以参加赚钱活动啦!"
+               }
+           });
+        })
+    }
+        //绑卡成功
+    var add_bank_success = function () {
+        post(dburl.task.recharge, {}, function (r) {
+            if (!r.S)
+                return;
+            openGuideFrame(
+           {
+               rurl: "widget://html/task/index.html",
+               type: "app",
+               d: {
+                   n: "task-index",
+                   t: "银行卡绑定成功!",
+                   c: "您已获得积分,可以参加赚钱活动啦!"
+               }
+           });
+        })
+    }
+    </script>
+
+</body>
+</html>

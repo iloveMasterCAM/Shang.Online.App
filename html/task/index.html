@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>商加在线优选活动</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+    <header class="aui-bar aui-bar-nav" style="background-color:#ff6a00">
+
+        <a class="aui-pull-left" onclick="closeWin('task-index')">
+            <span class="aui-iconfont aui-icon-angle-left"></span>
+        </a>
+
+        <div class="aui-title" id="title">优选活动</div>
+        <a class="aui-pull-right">
+            <!--<span class="aui-iconfont aui-icon-share-alt"></span>-->
+        </a>
+    </header>
+    <script>
+        apiready = function () {
+            
+            var header = $("header").outerHeight();
+            var body_h = $(window).height();
+            var rect_h = body_h - header;
+            api.openFrame({
+                name: 'taskindex_frm',
+                url: 'index_frm.html', vScrollBarEnabled: false,
+                bounces: false,
+                rect: {
+                    x: 0,
+                    y: header,
+                    w: 'auto',
+                    h: rect_h,
+                }
+            });
+        }
+    </script>
+</body>
+</html>

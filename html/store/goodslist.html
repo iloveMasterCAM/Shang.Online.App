@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <title>商品列表</title>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link rel="stylesheet" type="text/css" href="../../css/index.css"></head>
+    <script src="../../script/api.js"></script>
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    
+</head>
+<body style="background-color:#f3f3f3">
+    <div style="background-color:white;">
+        <div style="font-weight:400;font-size:12px;font-family:SimHei;">
+            <select class="aui-input" style="width:29%;height:inherit;border:none;margin-bottom:0px!important" id="type" onchange="refresh()">
+                <option value="">分类</option>
+                <option value="24">休闲/娱乐</option>
+                <option value="14">自贸区/保税</option>
+                <option value="10">互联网/科技</option>
+                <option value="5">贸易/销售</option>
+                <option value="1">餐饮/美食</option>
+            </select>
+            |
+            <span class="aui-input" style="display:inline-block;width:29%;padding-left:15px" id="city" onclick="openCityList()">&nbsp;&nbsp;城市</span>
+            |
+            <select class="aui-input" style="width:29%;height:inherit;border:none;margin-bottom:0px!important" id="orderby" onchange="refresh()">
+            <option value="time">排序</option>
+                <option value="time">时间</option>
+                <option value="price">价格</option>
+                <option value="sold">销量</option>
+                <option value="equity">分红权</option>
+            </select>
+        </div>
+    </div>
+    <div class="aui-content" style="margin-top:0px;">
+        <ul class="shopList goodList aui-waterfall clearfix" id="list">
+            
+        </ul>
+    </div>
+    
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp_goods">
+        {{each D as m i}}
+		 <li class="aui-col-xs-6" style="overflow:hidden" onclick="openWin('store-goodsdetail', 'goodsdetail_bar.html', {id :'{{m.id}}'});"> 
+                    <div class="aui-waterfall-header aui-text-left" style="overflow:hidden">
+                    <img style="min-height:150px;max-height:150px;width:auto;margin-left:auto;margin-right:auto" src="{{m.pic}}" />
+                        <p class="aui-ellipsis-2">{{m.name}}</p>
+                    </div>
+                    <div class="aui-waterfall-footer"> 
+                        <div class="clearfix">
+                            <div class="clearfix">
+                                <span class="aui-pull-left aui-text-danger">
+                                    &yen;{{m.price}}
+                                </span>
+                                <span class="aui-pull-right">
+                                    已售<span class="aui-text-danger">{{m.scount}}</span>件
+                                </span>
+                            </div>
+                            <div class="bottomInfo clearfix">
+                                <div class="aui-col-xs-9">
+                                    <p>分红金:&yen;<span>{{m.inprice}}</span></p>
+                                    <p>分佣金:&yen;<span>0.00</span></p>
+                                </div>
+                                <div class="aui-col-xs-3">
+                                    <span class="aui-iconfont aui-icon-cart"></span>
+                                </div>
+                                
+                            </div>
+                        </div>  
+                    </div>
+                </li>
+
+        {{/each}}
+    </script>
+    <script type="text/javascript">
+        
+        var pageSize = 10;
+        var pageIndex = 1;
+var city = '';
+var key = '';
+var type = "";
+var orderby ="";
+        apiready = function () {
+            refresh();
+        }
+
+        var refresh = function () {
+			type=$('#type').val();
+			orderby = $('#orderby').val();
+            $('#list').html('');
+            pageIndex = 1;
+            load();
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+
+            api.setRefreshHeaderInfo({
+                visible: true,
+                loadingImg: 'widget://image/refresh.png',
+                bgColor: '#ccc',
+                textColor: '#fff',
+                textDown: '下拉刷新...',
+                textUp: '松开刷新...',
+                showTime: true
+            }, function (ret, err) {
+                $("#list").html("");
+                pageIndex = 1;
+                load();
+                api.refreshHeaderLoadDone();
+            });
+        }
+
+        var load = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: true
+            });
+
+            post(dburl.store.list_shopshopstore, { values: { pageIndex:pageIndex,pageSize:pageSize,city:city,key:key,t:type,orderby:orderby  } }, function (d) {
+                
+                var html = template('tmp_goods', d);
+                $("#list").append(html);
+                pageIndex += 1;
+                api.hideProgress();
+            })
+        }
+
+        function openCityList() {
+            var cl = api.require('cityList');
+            cl.open({
+                currentCity: '厦门',
+                resource: 'widget://res/cityList.json',//后期改成数据真实数据
+                h: api.winHeight
+            }, function (ret, err) {
+                if (ret.eventType == "click") {
+                    $("#city").text(ret.cityInfo.city);
+                    city = ret.cityInfo.city;
+                    refresh();
+                }
+                cl.close();
+            });
+        }
+    </script>
+
+    
+</body>
+</html>

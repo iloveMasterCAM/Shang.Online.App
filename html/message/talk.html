@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>发现</title>
+    <link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/find_spec.css">
+    <link rel="icon" href="../../css/aui_iconfont.ttf">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+
+    <style type="text/css">
+        .target {
+            line-height: 45px;
+            padding: 0px 12px 12px 12px;
+            color: #f34b4b;
+            border-bottom: 2px solid #f34b4b;
+        }
+    </style>
+</head>
+<body>
+    <!--导航-->
+    <header class="aui-bar aui-bar-nav aui-bar-danger" style="position:fixed;z-index:15">
+        <a class="aui-btn aui-btn-danger aui-pull-left">
+            <span class="aui-iconfont aui-icon-search"></span>
+        </a>
+        <h2 class="aui-title ">发现</h2>
+        <div class="aui-pull-right">
+            <a class="aui-btn aui-btn-danger " ontouchend="openWin('message-mytalk','mytalk.html')">
+                <img src="../../image/talk/head_p.png" class="img-icon">
+            </a>
+            <a class="aui-btn aui-btn-danger">
+                <span class="aui-iconfont aui-icon-mark"></span>
+            </a>
+        </div>
+    </header>
+    <!--图片滚动-->
+    <div class="aui-banner" style="margin-top:45px" id="banner">
+        <div class="aui-banner-nav ">
+            <div class="aui-banner-nav1">
+                <div class="title">
+                    <span class="aui-banner-title">商家头条</span>
+                </div>
+            </div>
+            <div class="aui-banner-more">
+                <a> <span class="aui-banner-title">更多</span></a>
+            </div>
+        </div>
+        <div class="aui-banner-navImg swiper-container" id="swiper1">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="../../image/talk/find_bar.jpg">
+                </div>
+                <div class="swiper-slide "><img src="../../image/talk/find_bar.jpg"></div>
+                <div class="swiper-slide"><img src="../../image/talk/find_bar.jpg"></div>
+                <div class="swiper-slide"><img src="../../image/talk/find_bar.jpg"></div>
+            </div>
+        </div>
+    </div>
+    <!--横向列表-->
+    <div class="aui-find-spec-tab">
+        <div class="aui-tab" id="menu">
+            <ul class="aui-tab-nav " id="nav">
+                <li><span class="target" id="all">全部</span></li>
+                <li><span id="follow">股东</span></li>
+                <li><span id="round">附近</span></li>
+                <li><span id="shop">商户</span></li>
+                <li><span id="buyer">买家</span></li>
+            </ul>
+        </div>
+    </div>
+    <!--内容列表-->
+    <div id="menu_con">
+        
+    </div>
+
+    <div data-am-sticky="{bottom:40px;right:30px}" class="aui-find-sticky" ontouchend="openWin('message-talk_publish','talk_publish.html')">
+        <img src="../../image/talk/pub.png">
+    </div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        {{each D as m i}}
+        <div class="tag " style="display:block">
+            <div class="aui-find">
+                <div class="aui-find-cell" onclick="openWin('message-talk_comment','talk_comment.html','{{m.id}}')">
+                    <div class="aui-find-user">
+                        <img src="../../image/talk/circle_t.png" class="bg">
+                        <div>
+                            <img src="{{m.user.head}}" class="user-img">
+                        </div>
+                    </div>
+                    <div class="aui-find-userInfo">
+                        <ul>
+                            <li class="aui-find-userInfo-body">
+                                <span>{{m.user.name}}({{m.user.role}})<em>{{m.time}}</em></span>
+                                <p class='aui-ellipsis-1'>{{m.address}}&nbsp;{{m.dis}}</p>
+                            </li>
+                            <li class="aui-find-grid">
+
+                                <ul class="aui-grid-nine">
+                                    {{each m.images as img}}
+                                    <li class="aui-col-xs-4">
+                                        <img src="{{img}}">
+                                    </li>
+                                    {{/each}}
+                                </ul>
+                            </li>
+                            <li class="aui-find-content">
+                                <p>{{m.message}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="aui-find-other aui-img">
+                        <ul class=" aui-find-other-like">
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                            <li>
+                                <a>
+                                    <img src="../../image/talk/mg.png" class="img">
+                                </a>
+                                <span>{{m.num_comment}}</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript" src="../../script/swiper-3.3.1.min.js"></script>
+    <script>
+        var mySwiper1 = new Swiper ('#swiper1', {
+            direction: 'horizontal',
+            loop: true,
+            centeredSlides: false,
+            slidesPerView: 'auto',
+            // 如果需要分页器
+            pagination: '.swiper-pagination'
+        });
+
+        var pageIndex = 1;
+        var pageSize = 10;
+        var type = 0;
+
+        $('#nav li span').each(function () {
+            $(this).click(function () {
+                //红色
+                $('.target').removeClass('target');
+                $(this).addClass('target');
+                //重置
+                $('#menu_con').html('');
+                pageIndex = 1;
+                //根据所选加载内容
+                var t = $(this).attr('id');
+                switch (t)
+                {
+                    case 'all':
+                        typ = 0;
+                        break;
+                    case 'follow':
+                        type = 2;
+                        break;
+                    case 'round':
+                        type = 1;
+                        break;
+                    case 'shop':
+                        type = 3;
+                        break;
+                    case 'buyer':
+                        type = 4;
+                        break;
+                    default:
+                        break;
+                }
+                load();
+            })
+        })
+
+        apiready = function () {
+            load();
+
+            api.addEventListener({
+                name: 'scrolltobottom',
+                extra: {
+                    threshold: 150            //设置距离底部多少距离时触发，默认值为0，数字类型
+                }
+            }, function (ret, err) {
+                load();
+            });
+        }
+
+        var load = function(){
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.message.list_messages, { values: { lon:localStorage["lon"],lat:localStorage["lat"] ,pageIndex: pageIndex, pageSize: pageSize, type: type } }, function (d) {
+                var html = template('tmp', d);
+                $('#menu_con').append(html);
+                api.hideProgress();
+                pageIndex += 1;
+            })
+        }
+
+    </script>
+
+    <script type="text/javascript" src="../../script/find_spec.js"></script>
+    <script type="text/javascript" src="../../script/swiper-3.3.1.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>账户管理</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/set.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+</head>
+<body>
+	<!-- 顶部导航栏 -->
+	<header class="aui-bar aui-bar-nav aui-bar-danger">
+		<a class="aui-btn aui-btn-danger aui-pull-left" onclick="closeWin('mine-msgmanage')">
+			<span class="aui-iconfont aui-icon-left"></span>
+		</a>
+		<div class="aui-title">账户管理</div>
+	</header>
+	<!-- 账户信息列表 -->
+	<div class="msgList aui-content">
+        <ul class="aui-list-view" id="content"></ul>
+	</div>
+
+    <script src="../../script/artTemplate.js"></script>
+    <script type="text/html" id="tmp">
+        <li class="aui-list-view-cell haveImg" onclick="openWin('mine-head', '../mine/head.html')">
+            <a class="aui-arrow-right">
+                <div class="aui-img-object aui-pull-right">
+                    <img src="{{head}}">
+                </div>
+                <div class="aui-img-body">
+                    <span>头像</span>
+                </div>
+            </a>
+        </li>
+        <li class="aui-list-view-cell" onclick="changename()">
+            <div class="aui-arrow-right">
+                姓名
+                <span class="aui-pull-right">{{name}}</span>
+            </div>
+        </li>
+
+        <li class="aui-list-view-cell" onclick="openWin('mine-mail', 'mail.html', '{{mail}}')">
+            <div class="aui-arrow-right">
+                邮箱绑定
+                <span class="aui-pull-right">{{mail}}</span>
+            </div>
+        </li>
+        <li class="aui-list-view-cell" onclick="openWin('mine-phone', 'phone.html')">
+            <div class="aui-arrow-right">
+                手机绑定
+                <span class="aui-pull-right">{{phone}}</span>
+            </div>
+        </li>
+        <li class="aui-list-view-cell">
+            <div class="aui-arrow-right">
+                实名认证
+                <span class="aui-pull-right">
+                    {{if iscerti}}
+                    <em class="aui-icon-check-circle-o"></em>
+                    已认证
+                    {{else}}
+                    未认证
+                    {{/if}}
+
+                </span>
+            </div>
+        </li>
+        <li class="aui-list-view-cell" onclick="openWin('mine-changepwd', 'changepwd.html')">
+            <div class=" aui-arrow-right">
+                密码管理
+            </div>
+        </li>
+        <li class="aui-list-view-cell" onclick="openWin('mine-adress', 'adress.html', '{{address}}')">
+            <div class="aui-arrow-right">
+                我的收货地址
+                <span class="aui-pull-right">{{address}}</span>
+            </div>
+        </li>
+        <li class="aui-list-view-cell">
+            <div class="aui-arrow-right" onclick="changeArea()">
+                我的归属地
+                <span class="aui-pull-right" id="myBelong">{{area.province+' '+area.city+' '+area.area}}</span>
+            </div>
+        </li>
+    </script>
+
+    <script type="text/javascript">
+        var iscerti = "";
+        apiready = function () {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载...',
+                text: '',
+                modal: false
+            });
+
+            post(dburl.info.userinfo_members, { values: {} }, function (d) {
+                iscerti = d.D.iscerti;
+                $("#content").html(template("tmp", d.D));
+                api.hideProgress();
+            })
+            api.addEventListener({ name: "msgmanage" }, function (ret, err) {
+                post(dburl.info.userinfo_members, { values: {} }, function (d) {
+                    iscerti = d.D.iscerti;
+                    $("#content").html(template("tmp", d.D));
+                    api.hideProgress();
+                })
+            })
+        }
+        var changename = function () {
+            if (iscerti  !=true )
+            {
+                openWin('info-name', 'name.html')
+            }
+        }
+
+        var changeArea = function () {
+            var citySelector = api.require('citySelector');
+            citySelector.open({    
+                y: api.frameHeight / 1.6,
+                fixedOn: api.frameName
+            }, function (ret, err) {
+                
+                if (ret) {
+                    var p = ret.province;
+                    var c = ret.city;
+                    var a = ret.county;
+
+                    if (p == '上海' || p == '北京' || p == '重庆' || p == '天津') {
+                        p = p + '市';
+
+                        if (c == '崇明县' || c == '梁平县' || c == '密云县' || c == '綦江县' || c == '潼南县') {
+                            a = c ;
+                            c = '县';
+                        }
+                        else if (c == '南川市') {
+                            a = c ;
+                            c = '市';
+                        }
+                        else {
+                            c = '市辖区';
+                            a = '请选择';
+                        }
+                    }
+                    else {
+                        p = p + '省';
+                        c = c + '市';
+                    }
+
+                    post(dburl.info.changemembers, { values: { province: p, City: c, Area: a } }, function (d) {
+                        if (d.S) {
+                            api.hideProgress();
+                            $("#myBelong").html(p + "&nbsp;" + c + "&nbsp;" + a);
+                        } else {
+                            api.hideProgress();
+                            alert(d.M);
+                        }
+                        api.hideProgress();
+                    });
+                    
+                    //alert(JSON.stringify(ret));
+                } else {
+                   
+                    //alert(JSON.stringify(err));
+                    alert('加载出错..')
+                }
+            });
+        }
+
+        //var changeArea = function () {
+        //    var UIActionSelector = api.require('UIActionSelector');
+        //    UIActionSelector.open({
+        //        datas: 'widget://res/area.json',   //JSON 数组类型 或 路径类型；为选择器指定数据，可以是 JSON 数组 或是以 JSON 数组格式内容保存的文件的fs://、widget://路径
+        //        layout: {
+        //            row: 5,                        //（可选项）数字类型；每屏显示的数据行数，超出的数据可以滑动查看，只能是奇数；默认：5
+        //            col: 3,                        //（可选项）数字类型；数据源的数据级数，最多3级；默认：3
+        //            height: 30,                    //（可选项）数字类型；每行选项的高度；默认：30
+        //            size: 12,                      //（可选项）数字类型；普通选项的字体大小；默认：12
+        //            sizeActive: 14,                //（可选项）数字类型；当前选项的字体大小；默认：同    size
+        //            rowSpacing: 5,                 //（可选项）数字类型；行与行之间的距离；默认：5
+        //            colSpacing: 10,                //（可选项）数字类型；列与列之间的距离；默认：10
+        //            maskBg: 'rgba(0,0,0,0.2)',     //（可选项）字符串类型；遮罩层背景，支持 rgb，rgba，#，img；默认：rgba(0,0,0,0.2)
+        //            bg: '#fff',                    //（可选项）字符串类型；选择器有效区域背景，支持 rgb，rgba，#，img；默认：#fff
+        //            color: '#888',                 //（可选项）字符串类型；选项的文字颜色，支持 rgb，rgba，#；默认：#848484
+        //            colorActive: '#f00',           //（可选项）字符串类型；选项的文字颜色高亮，支持 rgb，rgba，#；默认：同 color
+        //            colorSelected: '#f00'          //（可选项）字符串类型；已选项的文字颜色，支持 rgb，rgba，#；默认：同 colorActive
+        //        },
+        //        animation: true,
+        //        cancel: {                          //（可选项）JSON 对象类型；取消按钮设置
+        //            text: '取消',                  //（可选项）字符串类型；取消按钮的显示文字；默认：未设置时只显示背景
+        //            size: 12,                      //（可选项）数字类型；取消按钮的显示文字大小；默认：12
+        //            w: 90,                         //（可选项）数字类型；取消按钮的宽；默认：90
+        //            h: 35,                         //（可选项）数字类型；取消按钮的高；默认：35
+        //            bg: '#fff',                    //（可选项）字符串类型；取消按钮的背景，支持 rgb，rgba，#，img；默认：'#fff'
+        //            bgActive: '#ccc',              //（可选项）字符串类型；取消按钮的背景高亮，支持 rgb，rgba，#，img；默认：同 bg
+        //            color: '#888',                 //（可选项）字符串类型；取消按钮的文字颜色，支持 rgb，rgba，#；默认：'#848484'
+        //            colorActive: '#fff'            //（可选项）字符串类型；取消按钮的文字颜色高亮，支持 rgb，rgba，#；默认：同 color
+        //        },
+        //        ok: {                              //（可选项）JSON 对象类型；确定按钮设置
+        //            text: '确定',                  //（可选项）字符串类型；确定按钮的显示文字；默认：未设置时只显示背景
+        //            size: 12,                      //（可选项）数字类型；确定按钮的显示文字大小；默认：12
+        //            w: 90,                         //（可选项）数字类型；确定按钮的宽；默认：90
+        //            h: 35,                         //（可选项）数字类型；确定按钮的高；默认：35
+        //            bg: '#fff',                    //（可选项）字符串类型；确定按钮的背景，支持 rgb，rgba，#，img；默认：'#fff'
+        //            bgActive: '#ccc',              //（可选项）字符串类型；确定按钮的背景高亮，支持 rgb，rgba，#，img；默认：同 bg
+        //            color: '#888',                 //（可选项）字符串类型；确定按钮的文字颜色，支持 rgb，rgba，#；默认：'#848484'
+        //            colorActive: '#fff'            //（可选项）字符串类型；确定按钮的文字颜色高亮，支持 rgb，rgba，#；默认：同 color
+        //        },
+        //        title: {                           //（可选项）JSON 对象类型；选择器顶部标题栏设置
+        //            text: '请选择',                //（可选项）字符串类型；选择器的标题内容；默认：请选择
+        //            size: 12,                      //（可选项）数字类型；标题内容的文字大小；默认：12
+        //            h: 44,                         //（可选项）数字类型；标题栏的高；默认：44
+        //            bg: '#eee',                    //（可选项）字符串类型；标题栏的背景，支持 rgb，rgba，#，img；默认：'#eee'
+        //            color: '#888'                  //（可选项）字符串类型；标题内容的文字颜色，支持 rgb，rgba，#；默认：'#848484'
+        //        },
+        //        fixedOn: api.frameName
+        //    }, function (ret, err) {
+        //        if (ret) {
+        //            alert(JSON.stringify(ret));
+        //        } else {
+        //            alert(JSON.stringify(err));
+        //        }
+        //    });
+        //}
+    </script>
+</body>
+</html>

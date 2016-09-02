@@ -1,0 +1,44 @@
+
+body{
+    background-color: #f4f4f4;
+    font-family: "微软雅黑";
+    margin: 0;
+    width: 100%;
+}
+/*头部固定*/
+#topnav{
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+}
+/*头部导航*/
+.topheader{
+    background-color: #f05453 !important;
+    height: 48px;
+    line-height: 48px;
+    font-size: 18px;
+}
+/*标题30号字体*/
+.htext{
+    color: #575757;
+    font-size: 12px;
+}
+/*文本24号*/
+.mtext{
+    color: #888;
+    font-size: 10px;
+}
+.mtexts{
+    color: #888;
+    font-size: 12px;
+}
+/*价格*/
+.redtext{
+    color: #f05453;
+    font-size: 12px;
+}
+/*总价*/
+.yelltext{
+    color: #fa6d41;
+    font-size: 18px;
+}

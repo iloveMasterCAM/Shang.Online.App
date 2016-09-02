@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>个人账户界面</title>
+	<link rel="stylesheet" href="../../css/swiper-3.3.1.min.css">
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+    <link href="../../css/mine.css" rel="stylesheet" />
+    <link href="../../css/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- <link href="../../css/bootstrap.min.css" rel="stylesheet" /> -->
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+    <style type="text/css">
+        /*4月23日修改*/
+        .aui-dialog{
+            top: 49%;
+            width: 78.06%;
+        }
+        .aui-dialog-header{
+            font-size: 18px;
+            line-height: 1;
+            padding-top: 5.37%;
+        }
+        .aui-dialog-btn:after{
+            border: 0 solid;
+        }
+        .aui-dialog-body{
+            font-size: 14px;
+            line-height: 1;
+            padding-top: 11.85%;
+            padding-bottom: 6.05%;
+        }
+        .aui-dialog-footer .aui-text-danger{
+            color: #f54748 !important;
+            padding-left: 10.3%;
+            padding-bottom: 10.3%;
+        }
+        .aui-dialog-footer .aui-text-success{
+            color: #009884 !important;
+            padding-right: 10.3%;
+            padding-bottom: 10.3%;
+        }
+    </style>
+</head>
+<body style="font-family:方正,兰亭,黑体!important">
+<header class="aui-bar aui-bar-nav">
+	<!-- 设置图标 -->
+	<a class="aui-pull-left " ontouchend="show()">
+        <span class="fa fa-gear" style="font-size:20px"  ></span>
+	</a>
+    <!-- 通知图标 -->
+	<a class="aui-pull-right" ontouchend="openWin('message-messages', '../message/messages.html', '')">
+	<i class="aui-iconfont aui-icon-mark"></i>
+	</a>
+</header>
+  <!--  openWin('mine-login','login.html')-->
+<div class="aui-content loginZone" ontouchend="url()">
+	<img  src="../../image/mine/mine_profile.jpg" id="head">
+	<a id="entry">登录/注册<i class="aui-iconfont aui-icon-right"></i></a>
+</div>
+
+<div class="aui-content">
+    <ul class="aui-grid-sixteen">
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('finance-balance','../finance/balance.html')">
+            <span style="line-height:1.5">
+            	<img src="../../image/mine/mine_img1.png">
+            </span>
+            <p>余额<span id="cash">0.00</span></p>
+        </li>
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('bank-cardlist','../bank/cardlist.html')">
+            <span>
+                <img src="../../image/mine/mine_img3.png">
+            </span>
+            <p>银行卡</p>
+        </li>
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('mine-mymoney','mymoney.html')">
+            <span>
+            	<img src="../../image/mine/mine_img2.png">
+            </span>
+            <p>我的资产</p>
+        </li>
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('mine-myequity','myequity_bar.html')">
+            <span>
+            	<img src="../../image/mine/mine_img4.png">
+            </span>
+            <p>我的分红权</p>
+        </li>
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('mine-mybuy','mybuy.html')">
+            <span>
+            	<img src="../../image/mine/mine_img5.png">
+            </span>
+            <p>订单管理</p>
+        </li>
+        <!--<li class="aui-col-xs-6 aui-text-center">
+            <span>
+            	<img src="../../image/mine/mine_img6.png">
+            </span>
+            <p>企业管理</p>
+        </li>-->
+        <!--<li class="aui-col-xs-6 aui-text-center">
+            <span>
+                <img src="../../image/mine/mine_img9.png">
+            </span>
+            <p>商家学院</p>
+        </li>--> 
+        <li class="aui-col-xs-6 aui-text-center" onclick="openWin('store-shopapply','../store/shopapply_bar.html')">
+            <span>
+            	<img src="../../image/mine/mine_img8.png">
+            </span>
+            <p>店铺入驻</p>
+        </li> 
+
+        <!--<li class="aui-col-xs-6 aui-text-center">
+            <span>
+                <img src="../../image/mine/mine_img10.png">
+            </span>
+            <p>代理服务</p>
+        </li>--> 
+        <!--<li class="aui-col-xs-6 aui-text-center">
+            <span>
+                <img src="../../image/mine/mine_img7.png">
+            </span>
+            <p>商家学院</p>
+        </li>--> 
+    </ul>
+    <!--<div class="aui-dialog aui-hidden" id="dialog">
+        <div class="aui-dialog-header">是否退出</div>
+        <div class="aui-dialog-body aui-text-left">
+            即将退出该账号
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn aui-text-danger" tapmode onclick="cancel()">取消</div>
+            <div class="aui-dialog-btn aui-text-info" tapmode onclick="confirm()">确定</div>
+        </div>
+    </div>-->
+   
+</div>
+
+    <script type="text/javascript">
+        
+        apiready = function () {
+            post(dburl.account.remainder, { values: {} }, function (r) {
+                $('#cash').html('' + r.D.remainder);
+            })
+
+            
+            if (localStorage["token"] != "" && localStorage["token"] != null) {
+
+                $('#head').attr('src', localStorage["headurl"]);
+                $('#entry').html(localStorage["name"]);
+            }
+
+            api.addEventListener({
+                name: 'logined',
+            },function(ret,err){
+                post(dburl.account.remainder, { values: {} }, function (r) {
+                    $('#cash').html('' + r.D.remainder);
+                    $('#head').attr('src', localStorage["headurl"]);
+                })
+            })
+
+            api.addEventListener({
+                name: "changehead"
+            }, function (ret, err) {
+                $('#head').attr('src', localStorage["head"]);
+                $('#entry').html(localStorage["name"]);
+            })
+        }
+        
+        var url = function () {
+            var info= document.getElementById("head").src ;
+            if (info.indexOf("mine_profile")== -1)
+            {
+                openWin('mine-msgmanage', 'msgmanage.html');
+            }else 
+            {
+                openWin('mine-login', 'login.html');
+               
+            }
+        }
+        function show() {
+            //$api.append($api.dom("body"), '<div class="aui-mask"></div>');
+            //$api.removeCls($api.dom(".aui-dialog.aui-hidden"), "aui-hidden");
+            //api.sendEvent({
+            //    name: 'dialogEvent',
+            //    extra: { type: 'show' }
+            //});
+            api.confirm({
+                title: '切换账号',
+                msg: '是否退出此账号?',
+                buttons: ['确定', '取消']
+            }, function (ret, err) {
+                if (ret.buttonIndex == 1) {
+                    confirm();
+                } else {
+                    
+                }
+            });
+        }
+        function cancel() {
+            
+        }
+        function confirm() {
+            localStorage["token"] = '';
+            localStorage["name"] = '';
+            //localStorage["phone"] = '';
+            localStorage["headurl"] = '';
+            localStorage["head"] = '';
+            localStorage["cash"] = '';//用户余额
+            //用户坐标暂设为0，后期使用百度地图
+            localStorage["lon"] = 0;
+            localStorage["lat"] = 0;
+
+            $('#cash').html('0.00');
+            $('#head').attr('src', '../../image/mine/mine_profile.jpg');
+            $('#entry').html('登录/注册');
+        }
+    </script>
+</body>
+</html>

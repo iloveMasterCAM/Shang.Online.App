@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>商加在线</title>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" href="../../css/aui.css">
+    <link rel="stylesheet" href="../../css/aui_iconfont.ttf">
+    <link rel="stylesheet" href="../../css/all.css">
+    <link rel="stylesheet" href="../../css/shangjia.css">
+
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script src="../../assets/js/api.js"></script>
+
+    <style type="text/css">
+        li.aui-list-view-cell:active {
+            background-color:#eee
+        }
+    </style>
+</head>
+<body class="bgcolor" style="font-family:黑体">
+    <!--商加在线-->
+    <div class="backcolor">
+        <header class="aui-bar aui-bar-nav" id="header" style="height: 45px;background-color: transparent">
+            <ul>
+                <li class="aui-pull-left">
+                    <img style="width: 20px;height: 20px" src="../../image/mine/setting.png" ontouchend="show()"/>
+                </li>
+                <li class="aui-pull-right">
+                    <i class="aui-iconfont aui-icon-mark" ontouchend="openWin('message-messages', '../message/messages.html', '')"></i>
+                </li>
+            </ul>
+        </header>
+        <!--头像和名称-->
+        <div style="height: 102px">
+            <ol class="oldiv aui-col-xs-12" onclick="ifInfo()">
+                <li class="aui-col-xs-4">
+                    <div class="photo">
+                        <img class="photochild" src="../../image/mine/people.png" id="head"/>
+                    </div>
+                </li>
+                <li class="aui-col-xs-4">
+                    <div class="textdiv" id="entry">
+                        <span style="line-height:56px">登录/注册</span>
+                    </div>
+                </li>
+                <li class="aui-col-xs-4 aui-text-right right">
+                    <i class="aui-iconfont aui-icon-right"></i>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <!--内容部分-->
+    <div class="aui-content" style="background-color: #fff">
+        <!--导航-->
+        <div style="margin: 0 7px;">
+            <ul class="aui-tab aui-tab-nav ulnav mtext titletext aui-text-center linebottom">
+                <li class="titletext" onclick="openWin('mine-mybuy','mybuy.html')">
+                    <img style="width: 21px;height: 27px" src="../../image/mine/order.png" /><br />
+                    <span>订单管理</span>
+                </li>
+                <li class="titletext" onclick="openWin('mine-myshopping','myshopping.html')">
+                    <img style="width: 32px;height: 26px" src="../../image/mine/shopcar.png"/><br/>
+                    <span>购物车</span>
+                </li>
+                <li class="titletext" onclick="openWin('bank-cardlist','../bank/cardlist.html')">
+                    <img style="width: 25px;height: 26px" src="../../image/mine/card.png" /><br />
+                    <span>银行卡</span>
+                </li>
+                <li class="titletext" onclick="openWin('mine-mymoney','mymoney.html')">
+                    <img style="width: 26px;height: 25px" src="../../image/mine/mymoney.png" /><br />
+                    <span>我的资产</span>
+                </li>
+            </ul>
+        </div>
+        <!--列表-->
+        <div style="margin-right:  7px;">
+            <ul class="aui-list-view">
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/balance.png"/>
+                    </div>
+                    <div class="aui-img-body lineheight" onclick="openWin('finance-balance','../finance/balance.html')">
+                        <span class="mtext navtext" style="vertical-align: middle">账户余额</span>
+                        <div class="aui-pull-right">
+                            <span class="mtext aui-text-danger" id="cash">&nbsp;</span>
+                            <i class="aui-iconfont aui-icon-right "></i>
+                        </div>
+                    </div>
+                </li>
+                <!--间距-->
+                <li class="aui-list-view-cell space"></li>
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/enshrine.png"/>
+                    </div>
+                    <div class="aui-img-body linebottom lineheight">
+                        <span class="mtext navtext" style="vertical-align: middle">我的收藏</span>
+                        <div class="aui-pull-right">
+                            <i class="aui-iconfont aui-icon-right "></i></div>
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/power.png"/>
+                    </div>
+                    <div class="aui-img-body lineheight" onclick="openWin('mine-myequity','myequity_bar.html')">
+                        <span class="mtext navtext" style="vertical-align: middle">我的分红权</span>
+                        <div class="aui-pull-right">
+                            <i class="aui-iconfont aui-icon-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-view-cell space"></li>
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/store.png"/>
+                    </div>
+                    <div class="aui-img-body linebottom lineheight" onclick="openWin('store-shopapply','../store/shopapply_bar.html')">
+                        <span class="mtext navtext" style="vertical-align: middle">店铺入驻</span>
+                        <div class="aui-pull-right">
+                            <i class="aui-iconfont aui-icon-right"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/agency.png"/>
+                    </div>
+                    <div class="aui-img-body linebottom lineheight">
+                        <span class="mtext navtext" style="vertical-align: middle">申请代理</span>
+                        <div class="aui-pull-right">
+                            <i class="aui-iconfont aui-icon-right "></i></div>
+                    </div>
+                </li>
+                <li class="aui-list-view-cell aui-img">
+                    <div class="divs">
+                        <img class="aui-img-object aui-pull-left imgdiv"  src="../../image/mine/business.png"/>
+                    </div>
+                    <div class="aui-img-body lineheight">
+                        <span class="mtext navtext" style="vertical-align: middle">商加学院</span>
+                        <div class="aui-pull-right">
+                            <i class="aui-iconfont aui-icon-right"></i></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../../script/artTemplate.js"></script>
+    
+    <!--登录之后显示用户姓名手机号-->
+    <script type="text/html" id="tmp_name">
+        <span class="xtext">{{name}}</span>
+        <br />
+        <span class="mtext">手机：{{phone}}</span>
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            apiready = function () {
+                
+                if (localStorage["token"] != "" && localStorage["token"] != null) {
+                    //加载头像
+                    if (localStorage["head"] != null && localStorage != '') {
+                        $('#head').attr('src', localStorage["head"]);
+                    }
+                    //加载姓名、电话
+                    var info = { name: localStorage["name"], phone: localStorage["phone"] };
+                    var html = template('tmp_name', info);
+                    $('#entry').html(html);
+                }
+
+                //加载余额
+                post(dburl.account.remainder, { values: {} }, function (r) {
+                    $('#cash').html('' + r.D.remainder);
+                })
+                //监听登录事件，修改余额与头像
+                api.addEventListener({
+                    name: 'logined',
+                }, function (ret, err) {
+                    post(dburl.account.remainder, { values: {} }, function (r) {
+                        $('#cash').html('' + r.D.remainder);
+
+                        var info = { name: localStorage["name"], phone: localStorage["phone"] };
+                        var html = template('tmp_name', info);
+                        $('#entry').html(html);
+                    })
+                })
+                //监听修改头像事件
+                api.addEventListener({
+                    name:'changehead',
+                }, function (ret, err) {
+                    //alert(JSON.stringify(ret));
+                    $('#head').attr('src', ret.value);
+                })
+            }
+        })
+
+        //退出账号提示框
+        function show() {
+            api.confirm({
+                title: '切换账号',
+                msg: '是否退出此账号?',
+                buttons: ['确定', '取消']
+            }, function (ret, err) {
+                if (ret.buttonIndex == 1) {
+                    confirm();
+                } else {
+
+                }
+            });
+        }
+
+        //退出账号确认
+        function confirm() {
+            localStorage["token"] = '';
+            localStorage["name"] = '';
+            //localStorage["phone"] = '';
+            localStorage["headurl"] = '';
+            localStorage["head"] = '';
+            localStorage["cash"] = '';//用户余额
+            //用户坐标暂设为0，后期使用百度地图
+            localStorage["lon"] = 0;
+            localStorage["lat"] = 0;
+
+            $('#cash').html('0.00');
+            $('#head').attr('src', '../../image/mine/people.png');
+            $('#entry').html("<span style='line-height:56px'>登录/注册</span>");
+        }
+
+        function ifInfo() {
+            if (localStorage["token"] == '' || localStorage["token"] == null) {
+                openWin('mine-login', 'login.html');
+            }
+            else
+            {
+                openWin('mine-msgmanage', 'msgmanage.html');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0">
+	<title>填写银行卡信息</title>
+	<link rel="stylesheet" type="text/css" href="../../css/aui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/base.css">
+	<link rel="stylesheet" type="text/css" href="../../css/money.css">
+    <link rel="stylesheet" type="text/css" href="../../css/change_zhang.css">
+    <script src="../../assets/js/jquery.min.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body>
+	<!-- 顶部导航栏 -->
+    <header class="defaultBar aui-bar aui-bar-nav aui-bar-danger">
+        <a class="aui-btn aui-btn-danger aui-pull-left" style="background-color:#282828!important">
+            <span class="aui-pull-left aui-iconfont aui-icon-left" ontouchend="closeWin()"></span>
+            <div class="aui-title">添加银行卡</div>
+            <span class="aui-pull-right" style="font-size:6px;color:#F1EEEE">商加安全支付</span>
+        </a>
+    </header>
+	<div class="writeMsgZone">
+		<p class="info">请选择银行卡类型</p>
+		<div class="aui-input-row inputZone">
+			<span class="aui-input-addon">卡类型</span>
+            <div class="aui-input aui-text-info" typeno="default" id="cartype" onclick="openWin('selectbank','selectbank.html')">选择卡所在行</div>
+		</div>
+		<p class="info">请填写银行预留信息</p>
+		<div class="aui-input-row inputZone">
+			<span class="aui-input-addon">手机号</span>
+			<input type="number" class="aui-input" placeholder="      请输入银行预留手机号" id="phone"/>
+		</div>
+	</div>
+	<br>
+	<p class="littleFont">信息加密处理，仅用于银行验证</p>
+	<div class="aui-input-row agree">
+		<input class="aui-pull-left aui-checkbox aui-checkbox-info" type="checkbox" id="check" checked="checked">
+		<div class="aui-checkbox-name">同意<a onclick="openWin('mine-term','../mine/term.html')">《用户协议》</a></div>
+	</div>
+	<div id="nextBtn" class="sureBtn aui-btn aui-btn-block aui-btn-info" style="background-color:#26c6e3!important;border: 1px solid #26c6e3;" onclick="commit()">
+		下一步
+	</div>
+
+    <script type="text/javascript">
+        var data = {};
+        var carinfo = {};
+        apiready = function () {
+            load();
+            //监听银行卡类型选择事件
+            api.addEventListener({
+                name: 'selectbank_success'
+            }, function (ret, err) {
+                
+                $("#cartype").html(ret.value.bank.name + " " + ret.value.type.name);
+                carinfo = ret.value;
+            });
+        }
+
+        var load = function () {
+            data = api.pageParam.data; 
+            //alert(JSON.stringify(data));
+            $("#phone").val(data.user.phone);
+        }
+
+        var commit = function () {
+            if (!$('#check').is(':checked')) {
+                api.toast({
+                    msg: '您尚未同意用户协议..',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+
+            data.car.bank = carinfo.bank;
+            data.car.type = carinfo.type;
+            data.car.expdate = carinfo.expdate;
+            data.car.cvn = carinfo.cvn;
+            data.user.phone = $("#phone").val();
+
+            if (!data.user.phone || !carinfo.bank || !carinfo.type) {
+                $aui.alert({ content: '请先补全信息', buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+                return;
+            }
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '数据提交中...',
+                text: '',
+                modal: true
+            });
+            post(dburl.account.addbank, {
+                values: {
+                    bankname: data.car.bank.name,
+                    bankno: data.car.bank.no,
+                    carno: data.car.carno,
+                    username: data.user.name,
+                    phone: data.user.phone,
+                    idcar: data.user.idcar,
+                    cartype: data.car.type.no,
+                    expdate: data.car.expdate,
+                    cvn: data.car.cvn
+                }
+            }, function (r) {
+                if (r.S) {
+                    
+                    api.hideProgress();
+                    openWin("smverify", "smverify.html", r.D);
+
+                } else {
+                    api.hideProgress();
+                    $aui.alert({ content: r.M, buttons: ['确定'], title: "商加在线提示" }, function (ret) { });
+                }
+                api.hideProgress();
+            })
+        }
+
+    </script>
+</body>
+</html>

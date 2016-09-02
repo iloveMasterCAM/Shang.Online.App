@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>店铺扫码</title>
+    <script src="../../assets/js/jquery.min.js" type="text/javascript"></script>
+    <link href="../../css/aui.css" rel="stylesheet" />
+    <script src="../../script/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+</head>
+<body style="background-color:#3c3c3c">
+    <header class="aui-bar aui-bar-nav aui-bar-danger">
+        <a class="aui-btn aui-btn-danger aui-pull-left" onclick="closeWin()">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </a>
+        <div class="aui-title">二维码扫描</div>
+    </header>
+
+  
+
+
+
+    <div style="position:absolute;z-index:1000;left:100px;top:100px;box-shadow:#00ff21 0px 0px 3px ;width:300px;height:300px;border-radius:3px" id="qrborder">
+        <div style="font-size:12px;color:white;position:absolute;bottom:-30px;text-align:center;width:100%">扫描店内支付/扫描识别交易</div>
+    </div>
+    <script src="../../script/api.js"></script>
+    <script src="../../assets/js/sapi.js"></script>
+    <script>
+        var obj = {};
+        apiready = function () {
+            openQrcode();
+        };
+        var openQrcode = function () {
+            obj = api.require('FNScanner');
+            var border = $("#qrborder");
+            var width = api.winWidth;
+            var height = api.winHeight - $("header").outerHeight();
+            var w = width * 0.7;
+            var h = w - w * 0.2;
+            var x = width / 2 - w / 2;
+            var y = height / 2 - h / 2;
+            border.css({"width":w + 1,"height":h+2,"left":x-1,"top":y-1});
+            obj.openView({
+                rect: {
+                    x: x,
+                    y: y,
+                    w: w,
+                    h: h
+                },
+                //sound: 'widget://res/beep.wav',
+                autorotation: true,
+                saveToAlbum: false,
+                //saveImg: {
+                //    //path: 'fs://a.jpg',
+                //    w: 200,
+                //    h: 200
+                //},
+                fixedOn: '',
+                fixed: true
+            }, function (ret) {
+                if (ret.eventType == "success") {
+                 
+                    if (ret.content.indexOf("店铺") > -1) {
+                        var d = ret.content;
+                     
+                        openWin('store-shopgoodslist_head', '../store/shopgoodslist_head.html', d.substr(2) )
+                    }
+                    if (ret.content.indexOf("商品") > -1) {
+                        var d = ret.content;
+                        openWin('store-goodsdetail_bar','../store/goodsdetail_bar.html',d.substr(2) )
+                    }
+                    obj.closeView();
+                }
+
+            });
+
+        }
+        var closeMe = function () {
+            //var obj = api.require('FNScanner');
+            try {
+                obj.closeView();
+            } catch (e) {
+
+            }
+
+            closeWin('home-code');
+        }
+    </script>
+</body>
+</html>
