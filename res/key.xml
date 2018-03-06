@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<security>
-  <item name="wxPay_appId" value="wxc777455d99f1a570"/>
-  <item name="wxPay_mchId" value="1262971101"/>
-  <item name="wxPay_partnerKey" value="a7e320efbfe64576b49da80ed6b4712a"/>
-  <item name="wxPay_notifyUrl" value="http://app.linjiacn.com/pay/wxnotify"/>
-</security>
